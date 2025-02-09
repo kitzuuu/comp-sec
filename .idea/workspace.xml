@@ -4,25 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c4d6a2e-9288-4fad-917b-7811bc459889" name="Changes" comment="" />
+    <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$/comp-sec" value="main" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/comp-sec" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
-}</component>
-  <component name="ProjectId" id="2smENv1vZWIMdN8sdSs3alwKWqi" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2sojN0rR7qQq3kldb44tJnS3a1q" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -30,17 +25,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "rares",
-    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/hucih/Desktop/Computer Security/.idea",
+    "last_opened_file_path": "C:/Users/hucih/Desktop/Computer Security/comp-sec",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Users\\hucih\\Desktop\\Computer Security\\comp-sec\\frontend\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\hucih\\Desktop\\Computer Security\\comp-sec\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -55,44 +47,16 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0c4d6a2e-9288-4fad-917b-7811bc459889" name="Changes" comment="" />
-      <created>1739052312923</created>
+      <changelist id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="" />
+      <created>1739128779241</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1739052312923</updated>
-      <workItem from="1739052313952" duration="202000" />
-      <workItem from="1739052529974" duration="137000" />
-      <workItem from="1739052675109" duration="361000" />
-      <workItem from="1739053052171" duration="33000" />
-      <workItem from="1739053238357" duration="204000" />
-      <workItem from="1739053511563" duration="634000" />
+      <updated>1739128779241</updated>
+      <workItem from="1739128780624" duration="2951000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>
