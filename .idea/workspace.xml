@@ -5,21 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/login/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/register/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/register/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/register-form.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/database.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/forgot-password/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/forgot-password/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/forgot-password-form.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/stock-market.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/login/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/login/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/login-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/login-form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,7 +50,7 @@
     "git-widget-placeholder": "rares",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/hucih/Desktop/Computer Security/comp-sec",
+    "last_opened_file_path": "C:/Users/hucih/Desktop/Computer Security/comp-sec/public",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -58,6 +61,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\hucih\Desktop\Computer Security\comp-sec\public" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\hucih\Desktop\Computer Security\comp-sec\components" />
     </key>
@@ -80,7 +86,8 @@
       <updated>1739128779241</updated>
       <workItem from="1739128780624" duration="2951000" />
       <workItem from="1739206541927" duration="236000" />
-      <workItem from="1739224310623" duration="7552000" />
+      <workItem from="1739224310623" duration="7776000" />
+      <workItem from="1739300413914" duration="3147000" />
     </task>
     <servers />
   </component>

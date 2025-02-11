@@ -14,9 +14,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const router = useRouter(); // For redirection after successful login
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // 🔹 Prevent page refresh
+    e.preventDefault();
 
-    console.log("Submitting login data:", { username: email, password }); // Debugging
+    console.log("Submitting login data:", { username: email, password });
 
     try {
       const response = await fetch("/api/login", {
@@ -60,7 +60,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
+          <div className="grid gap-2 relative">
             <Label htmlFor="password">Password</Label>
             <Input
                 id="password"
@@ -69,6 +69,12 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
+            <a
+                href="/forgot-password"
+                className="absolute right-0 text-sm mt-[-10px] text-primary hover:underline"
+            >
+              Forgot Password?
+            </a>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <Button type="submit" className="w-full">
@@ -83,4 +89,5 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         </div>
       </form>
   );
+
 }
