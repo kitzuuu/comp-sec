@@ -23,7 +23,8 @@ export function ForgotPasswordForm() {
         setMessage(data.message || "User not found.");
       }
     } catch {
-      setMessage("Error retrieving password. Please try again.");
+        console.log("Error retrieving password.");
+
     }
   };
 

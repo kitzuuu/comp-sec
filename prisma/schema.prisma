@@ -11,5 +11,5 @@ model users {
   id       Int    @id @default(autoincrement())
   username String @unique
   password String
-  balance  Int    @default(1000)
+  balance  Int    @default(0)
 }

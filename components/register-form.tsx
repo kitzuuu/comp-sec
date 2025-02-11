@@ -20,7 +20,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
         });
 
         const data = await response.json();
-        alert(data.message);
+        console.log("Registration:", data.message);
     };
 
     return (

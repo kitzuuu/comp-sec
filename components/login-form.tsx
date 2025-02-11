@@ -29,7 +29,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       console.log("Response from server:", data); // Debug API response
 
       if (response.ok) {
-        alert("Login successful!");
+        console.log("Login successful!");
         router.push("/dashboard"); // Redirect to dashboard or home
       } else {
         setError(data.message || "Login failed.");
