@@ -2,13 +2,13 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { Navigation } from "@/components/ui/navigation"; // Import Sidebar
 
 export function DashboardForm() {
     const [balance, setBalance] = useState<number | null>(null);
     const [transactions, setTransactions] = useState<{ type: string; amount: number }[]>([]);
     const router = useRouter();
 
-    // Fetch wallet balance when the page loads
     useEffect(() => {
         const fetchBalance = async () => {
             try {
@@ -26,7 +26,6 @@ export function DashboardForm() {
         fetchBalance();
     }, []);
 
-    // Handle transactions (Add Funds / Withdraw Funds)
     const handleTransaction = async (type: "add" | "withdraw") => {
         try {
             const res = await fetch("/api/wallet", {
@@ -39,7 +38,7 @@ export function DashboardForm() {
             if (res.ok) {
                 setBalance(data.newBalance);
                 setTransactions((prev) => [
-                    { type, amount: 100 }, // Assume $100 transactions
+                    { type, amount: 100 },
                     ...prev,
                 ]);
             } else {
@@ -52,23 +51,12 @@ export function DashboardForm() {
 
     return (
         <div className="flex h-screen w-screen">
-            {/* Sidebar */}
-            <aside className="w-64 bg-gray-900 text-white p-6 flex flex-col h-full fixed left-0 top-0">
-                <h1 className="text-xl font-bold mb-6">Trading Dashboard</h1>
-                <nav className="flex flex-col space-y-4">
-                    <a href="#" className="text-gray-400 hover:text-white">Home</a>
-                    <a href="#" className="text-gray-400 hover:text-white">Portfolio</a>
-                    <a href="#" className="text-gray-400 hover:text-white">Markets</a>
-                    <a href="#" className="text-gray-400 hover:text-white">Settings</a>
-                </nav>
-            </aside>
+            <Navigation /> {/* Sidebar Component */}
 
-            {/* Main Dashboard Content */}
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
-                {/* Background Image */}
-                <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{ backgroundImage: "url('/stock-market.svg')" }}></div>
+                <div className="absolute inset-0 bg-cover bg-center opacity-20"
+                     style={{ backgroundImage: "url('/stock-market.svg')" }}></div>
 
-                {/* Wallet Overview */}
                 <div className="relative bg-white p-6 rounded-lg shadow-md flex justify-between items-center mb-6">
                     <div>
                         <h2 className="text-2xl font-bold">Your Wallet</h2>
@@ -79,17 +67,17 @@ export function DashboardForm() {
                     </p>
                 </div>
 
-                {/* Buttons */}
                 <div className="relative flex gap-4 mb-6">
-                    <Button onClick={() => handleTransaction("add")} className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md">
+                    <Button onClick={() => handleTransaction("add")}
+                            className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md">
                         Deposit Funds
                     </Button>
-                    <Button onClick={() => handleTransaction("withdraw")} className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md">
+                    <Button onClick={() => handleTransaction("withdraw")}
+                            className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md">
                         Withdraw Funds
                     </Button>
                 </div>
 
-                {/* Transaction History */}
                 <div className="relative bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-xl font-semibold mb-3">Recent Transactions</h2>
                     <ul className="divide-y divide-gray-200">

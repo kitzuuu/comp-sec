@@ -5,13 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/wallet/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/delete-user/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/delete-user.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/logout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/dashboard-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard-form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/forgot-password-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/forgot-password-form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/login-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/login-form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/register-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/register-form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/migrations/20250211200833_add_balance_field/migration.sql" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/migrations/20250211200833_add_balance_field/migration.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +94,7 @@
       <workItem from="1739206541927" duration="236000" />
       <workItem from="1739224310623" duration="7776000" />
       <workItem from="1739300413914" duration="4750000" />
-      <workItem from="1739305706939" duration="2463000" />
+      <workItem from="1739305706939" duration="4728000" />
     </task>
     <servers />
   </component>
