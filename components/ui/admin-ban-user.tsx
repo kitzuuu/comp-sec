@@ -1,32 +1,57 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "./button";
+import { Input } from "./input";
+import { Label } from "./label";
 
 export function AdminBanUser({ onClose }: { onClose: () => void }) {
     const [email, setEmail] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
     const handleBanUser = async () => {
-        await fetch("/api/admin-dashboard", {
+        if (!email.trim()) {
+            setError("User email is required.");
+            return;
+        }
+
+        setError(null);  // Clear any previous error.
+
+        const response = await fetch("/api/admin-dashboard", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
         });
-        onClose();
+
+        const result = await response.json();
+
+        if (response.ok) {
+            onClose();  // Close popup if successful.
+        } else {
+            setError(result.message || "Failed to ban user. Please try again.");
+        }
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-md shadow-lg">
-                <h2 className="text-xl font-bold">Ban User</h2>
-                <input
-                    type="email"
-                    placeholder="User Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="border p-2 w-full mt-2"
-                />
-                <div className="flex gap-4 mt-4">
-                    <Button onClick={handleBanUser} className="bg-gray-500">Ban</Button>
-                    <Button onClick={onClose} className="bg-gray-400">Cancel</Button>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md border border-gray-300">
+                <h2 className="text-2xl font-bold mb-4 text-gray-800">Ban User</h2>
+
+                <div className="mb-4">
+                    <Label htmlFor="email" className="block mb-2">User Email</Label>
+                    <Input
+                        id="email"
+                        type="email"
+                        placeholder="Enter user email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                </div>
+
+                <div className="flex justify-end space-x-4 mt-6">
+                    <Button variant="secondary" onClick={onClose}>Cancel</Button>
+                    <Button variant="default" onClick={handleBanUser}>Ban User</Button>
                 </div>
             </div>
         </div>
