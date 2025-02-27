@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Navigation } from "@/components/ui/navigation"; // Import Sidebar
+import { TransactionHistory } from "@/components/ui/transaction-history";
 
 export function DashboardForm() {
     const [balance, setBalance] = useState<number | null>(null);
-    const [transactions, setTransactions] = useState<{ type: string; amount: number }[]>([]);
+    const [transactions, setTransactions] = useState<{ type: string; amount: number; date: string; time: string; user: string; status: string }[]>([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -16,15 +17,21 @@ export function DashboardForm() {
                 const data = await res.json();
                 if (res.ok) {
                     setBalance(data.balance);
-                } else {
-                    console.log("❌ Error fetching balance.");
                 }
             } catch (error) {
                 console.log("❌ Error fetching balance:", error);
             }
         };
+
+        // Load transactions from local storage
+        const storedTransactions = localStorage.getItem("transactionHistory");
+        if (storedTransactions) {
+            setTransactions(JSON.parse(storedTransactions));
+        }
+
         fetchBalance();
     }, []);
+
 
     const handleTransaction = async (type: "add" | "withdraw") => {
         try {
@@ -35,27 +42,59 @@ export function DashboardForm() {
             });
 
             const data = await res.json();
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleDateString();
+            const formattedTime = currentDate.toLocaleTimeString();
+
             if (res.ok) {
                 setBalance(data.newBalance);
-                setTransactions((prev) => [
-                    { type, amount: 100 },
-                    ...prev,
-                ]);
+
+                // Create new transaction entry
+                const newTransaction = {
+                    type,
+                    amount: 100,
+                    date: formattedDate,
+                    time: formattedTime,
+                    user: "Current User", // Replace with actual username if available
+                    status: "Completed",
+                };
+
+                // Move all transactions down, insert new one at the top, and drop the last if > 8
+                setTransactions((prev) => {
+                    const updatedHistory = [newTransaction, ...prev].slice(0, 8);
+                    localStorage.setItem("transactionHistory", JSON.stringify(updatedHistory));
+                    return updatedHistory;
+                });
             } else {
-                console.log("❌ Transaction failed.");
+                // Handle failed transactions
+                const failedTransaction = {
+                    type,
+                    amount: 100,
+                    date: formattedDate,
+                    time: formattedTime,
+                    user: "Current User",
+                    status: "Failed",
+                };
+
+                setTransactions((prev) => {
+                    const updatedHistory = [failedTransaction, ...prev].slice(0, 8);
+                    localStorage.setItem("transactionHistory", JSON.stringify(updatedHistory));
+                    return updatedHistory;
+                });
             }
         } catch (error) {
             console.log("❌ Error processing transaction:", error);
         }
     };
 
+
     return (
         <div className="flex h-screen w-screen">
-            <Navigation /> {/* Sidebar Component */}
+            <Navigation/> {/* Sidebar Component */}
 
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
                 <div className="absolute inset-0 bg-cover bg-center opacity-20"
-                     style={{ backgroundImage: "url('/stock-market.svg')" }}></div>
+                     style={{backgroundImage: "url('/stock-market.svg')"}}></div>
 
                 <div className="relative bg-white p-6 rounded-lg shadow-md flex justify-between items-center mb-6">
                     <div>
@@ -78,23 +117,11 @@ export function DashboardForm() {
                     </Button>
                 </div>
 
+                {/* Fix: Wrap TransactionHistory in a white box with shadow */}
                 <div className="relative bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold mb-3">Recent Transactions</h2>
-                    <ul className="divide-y divide-gray-200">
-                        {transactions.length > 0 ? (
-                            transactions.map((tx, index) => (
-                                <li key={index} className="flex justify-between py-2">
-                                    <span className={tx.type === "add" ? "text-green-600" : "text-red-600"}>
-                                        {tx.type === "add" ? "+$100" : "-$100"}
-                                    </span>
-                                    <span className="text-gray-500 text-sm">Completed</span>
-                                </li>
-                            ))
-                        ) : (
-                            <p className="text-gray-500 text-center">No recent transactions.</p>
-                        )}
-                    </ul>
+                    <TransactionHistory transactions={transactions}/>
                 </div>
+
             </div>
         </div>
     );
