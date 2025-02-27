@@ -1,59 +1,55 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/database";
 
-// Add User Route
+// Caesar Cipher Encryption (works for letters and numbers)
+function caesarCipherEncrypt(text: string, shift: number): string {
+    return text.replace(/[a-zA-Z0-9]/g, (char) => {
+        let base: number;
+        let range: number;
+
+        if (char >= "a" && char <= "z") {
+            base = 97;
+            range = 26;
+        } else if (char >= "A" && char <= "Z") {
+            base = 65;
+            range = 26;
+        } else if (char >= "0" && char <= "9") {
+            base = 48;
+            range = 10;
+        } else {
+            return char;
+        }
+
+        return String.fromCharCode(((char.charCodeAt(0) - base + shift) % range) + base);
+    });
+}
+
 export async function POST(req: Request) {
     try {
-        const { email } = await req.json();
-        await prisma.users.create({ data: { username: email, password: "default123", balance: 1000, blocked: false } });
+        const { email, password } = await req.json();
 
-        return NextResponse.json({ message: "User added successfully" }, { status: 200 });
+        if (!email || !password) {
+            return NextResponse.json({ message: "Email and password are required" }, { status: 400 });
+        }
+
+        const existingUser = await prisma.users.findUnique({ where: { username: email } });
+        if (existingUser) {
+            return NextResponse.json({ message: "User already exists" }, { status: 400 });
+        }
+
+        const encryptedPassword = caesarCipherEncrypt(password, 3);
+
+        await prisma.users.create({
+            data: {
+                username: email,
+                password: encryptedPassword,
+                balance: 1000,
+                blocked: false,
+            }
+        });
+
+        return NextResponse.json({ message: "User added successfully" }, { status: 201 });
     } catch (error) {
         return NextResponse.json({ message: "Error adding user", error: error instanceof Error ? error.message : "Unknown error" }, { status: 500 });
     }
 }
-
-// Delete User Route
-export async function DELETE(req: Request) {
-    try {
-        const { email } = await req.json();
-        await prisma.users.delete({ where: { username: email } });
-
-        return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ message: "Error deleting user", error: error instanceof Error ? error.message : "Unknown error" }, { status: 500 });
-    }
-}
-
-// Block User Route (Previously "Ban User")
-export async function PUT(req: Request) {
-    try {
-        const { email } = await req.json();
-        await prisma.users.update({ where: { username: email }, data: { blocked: true } });
-
-        return NextResponse.json({ message: "User blocked successfully" }, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ message: "Error blocking user", error: error instanceof Error ? error.message : "Unknown error" }, { status: 500 });
-    }
-}
-
-// Handle Money Transactions (Add/Withdraw)
-export async function PATCH(req: Request) {
-    try {
-        const { email, amount, type } = await req.json();
-
-        if (!type || (type !== "add" && type !== "withdraw")) {
-            return NextResponse.json({ message: "Invalid transaction type" }, { status: 400 });
-        }
-
-        await prisma.users.update({
-            where: { username: email },
-            data: { balance: type === "add" ? { increment: amount } : { decrement: amount } },
-        });
-
-        return NextResponse.json({ message: `Money ${type === "add" ? "added" : "withdrawn"} successfully` }, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ message: `Error processing transaction`, error: error instanceof Error ? error.message : "Unknown error" }, { status: 500 });
-    }
-}
-
