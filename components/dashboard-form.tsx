@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/ui/navigation";
 import { TransactionHistory } from "@/components/ui/transaction-history";
-import { AddMoney } from "@/components/ui/add-money"; // Import Add Money Popup
+import { AddMoney } from "@/components/ui/add-money";
+import { WithdrawMoney } from "@/components/ui/withdraw-money";
 
 export function DashboardForm() {
     const [balance, setBalance] = useState<number | null>(null);
     const [transactions, setTransactions] = useState<{ type: string; amount: number; date: string; time: string; user: string; status: string }[]>([]);
     const [showPopup, setShowPopup] = useState(false);
+    const [showWithdrawPopup, setShowWithdrawPopup] = useState(false);
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -107,7 +109,7 @@ export function DashboardForm() {
                             className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md">
                         Deposit Funds
                     </Button>
-                    <Button onClick={() => handleTransaction("withdraw")}
+                    <Button onClick={() => setShowWithdrawPopup(true)}
                             className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md">
                         Withdraw Funds
                     </Button>
@@ -118,6 +120,14 @@ export function DashboardForm() {
                     <AddMoney
                         onClose={() => setShowPopup(false)}
                         onConfirm={(amount) => handleTransaction("add", amount)}
+                    />
+                )}
+
+                {/* Show Withdraw Money Popup */}
+                {showWithdrawPopup && (
+                    <WithdrawMoney
+                        onClose={() => setShowWithdrawPopup(false)}
+                        onConfirm={(amount) => handleTransaction("withdraw", amount)}
                     />
                 )}
 
