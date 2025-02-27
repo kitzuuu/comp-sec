@@ -20,12 +20,18 @@ export async function GET() {
 export async function POST(req: Request) {
     try {
         const body = await req.json().catch(() => null);
-        if (!body || !body.type) {
+        if (!body || !body.type || !body.amount) {
             console.log("Invalid request: Missing payload.");
             return NextResponse.json({ message: "Invalid request: Missing payload." }, { status: 400 });
         }
 
-        const { type } = body;
+        const { type, amount } = body;
+
+        // Validate that the amount is a number and within limits
+        if (isNaN(amount) || amount <= 0 || (type === "withdraw" && amount > 50000) || (type === "add" && amount > 100000)) {
+            return NextResponse.json({ message: "Invalid amount" }, { status: 400 });
+        }
+
         let user = await prisma.users.findFirst(); // ✅ Corrected to `users`
         if (!user) {
             console.log("User not found.");
@@ -34,9 +40,9 @@ export async function POST(req: Request) {
 
         let newBalance = user.balance;
         if (type === "add") {
-            newBalance += 100;
-        } else if (type === "withdraw" && user.balance >= 100) {
-            newBalance -= 100;
+            newBalance += amount; // Use the amount provided
+        } else if (type === "withdraw" && user.balance >= amount) {
+            newBalance -= amount; // Use the amount provided
         } else {
             console.log("Insufficient funds.");
             return NextResponse.json({ message: "Insufficient funds" }, { status: 400 });
