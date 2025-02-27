@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/login/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/login/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard-form.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +68,7 @@
       <recent name="C:\Users\hucih\Desktop\Computer Security\comp-sec\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hucih\Desktop\Computer Security\comp-sec\public" />
       <recent name="C:\Users\hucih\Desktop\Computer Security\comp-sec\components" />
     </key>
   </component>
@@ -89,12 +92,28 @@
       <workItem from="1739206541927" duration="236000" />
       <workItem from="1739224310623" duration="7776000" />
       <workItem from="1739300413914" duration="4750000" />
-      <workItem from="1739305706939" duration="5409000" />
+      <workItem from="1739305706939" duration="5728000" />
+      <workItem from="1739892808250" duration="19000" />
+      <workItem from="1739892842252" duration="153000" />
+      <workItem from="1739893004160" duration="100000" />
+      <workItem from="1740651263290" duration="2005000" />
+      <workItem from="1740668393192" duration="1303000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="cleaned up the project. going to implement db" />

@@ -55,7 +55,7 @@ export function DashboardForm() {
 
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
                 <div className="absolute inset-0 bg-cover bg-center opacity-20"
-                     style={{ backgroundImage: "url('/cristi.svg')" }}></div>
+                     style={{ backgroundImage: "url('/stock-market.svg')" }}></div>
 
                 <div className="relative bg-white p-6 rounded-lg shadow-md flex justify-between items-center mb-6">
                     <div>
