@@ -1,14 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { Navigation } from "@/components/ui/navigation"; // Import Sidebar
+import { Navigation } from "@/components/ui/navigation";
 import { TransactionHistory } from "@/components/ui/transaction-history";
+import { AddMoney } from "@/components/ui/add-money"; // Import Add Money Popup
 
 export function DashboardForm() {
     const [balance, setBalance] = useState<number | null>(null);
     const [transactions, setTransactions] = useState<{ type: string; amount: number; date: string; time: string; user: string; status: string }[]>([]);
-    const router = useRouter();
+    const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -32,13 +32,12 @@ export function DashboardForm() {
         fetchBalance();
     }, []);
 
-
-    const handleTransaction = async (type: "add" | "withdraw") => {
+    const handleTransaction = async (type: "add" | "withdraw", amount: number = 100) => {
         try {
             const res = await fetch("/api/wallet", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ type }),
+                body: JSON.stringify({ type, amount }),
             });
 
             const data = await res.json();
@@ -47,29 +46,27 @@ export function DashboardForm() {
             const formattedTime = currentDate.toLocaleTimeString();
 
             if (res.ok) {
-                setBalance(data.newBalance);
+                setTimeout(() => {
+                    setBalance(data.newBalance);
+                    const newTransaction = {
+                        type,
+                        amount,
+                        date: formattedDate,
+                        time: formattedTime,
+                        user: "Current User",
+                        status: "Completed",
+                    };
 
-                // Create new transaction entry
-                const newTransaction = {
-                    type,
-                    amount: 100,
-                    date: formattedDate,
-                    time: formattedTime,
-                    user: "Current User", // Replace with actual username if available
-                    status: "Completed",
-                };
-
-                // Move all transactions down, insert new one at the top, and drop the last if > 8
-                setTransactions((prev) => {
-                    const updatedHistory = [newTransaction, ...prev].slice(0, 8);
-                    localStorage.setItem("transactionHistory", JSON.stringify(updatedHistory));
-                    return updatedHistory;
-                });
+                    setTransactions((prev) => {
+                        const updatedHistory = [newTransaction, ...prev].slice(0, 8);
+                        localStorage.setItem("transactionHistory", JSON.stringify(updatedHistory));
+                        return updatedHistory;
+                    });
+                }, 2000);
             } else {
-                // Handle failed transactions
                 const failedTransaction = {
                     type,
-                    amount: 100,
+                    amount,
                     date: formattedDate,
                     time: formattedTime,
                     user: "Current User",
@@ -87,14 +84,13 @@ export function DashboardForm() {
         }
     };
 
-
     return (
         <div className="flex h-screen w-screen">
-            <Navigation/> {/* Sidebar Component */}
+            <Navigation /> {/* Sidebar Component */}
 
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
                 <div className="absolute inset-0 bg-cover bg-center opacity-20"
-                     style={{backgroundImage: "url('/stock-market.svg')"}}></div>
+                     style={{ backgroundImage: "url('/stock-market.svg')" }}></div>
 
                 <div className="relative bg-white p-6 rounded-lg shadow-md flex justify-between items-center mb-6">
                     <div>
@@ -107,7 +103,7 @@ export function DashboardForm() {
                 </div>
 
                 <div className="relative flex gap-4 mb-6">
-                    <Button onClick={() => handleTransaction("add")}
+                    <Button onClick={() => setShowPopup(true)}
                             className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md">
                         Deposit Funds
                     </Button>
@@ -117,11 +113,18 @@ export function DashboardForm() {
                     </Button>
                 </div>
 
-                {/* Fix: Wrap TransactionHistory in a white box with shadow */}
-                <div className="relative bg-white p-6 rounded-lg shadow-md">
-                    <TransactionHistory transactions={transactions}/>
-                </div>
+                {/* Show Add Money Popup */}
+                {showPopup && (
+                    <AddMoney
+                        onClose={() => setShowPopup(false)}
+                        onConfirm={(amount) => handleTransaction("add", amount)}
+                    />
+                )}
 
+                {/* Transaction History */}
+                <div className="relative bg-white p-6 rounded-lg shadow-md">
+                    <TransactionHistory transactions={transactions} />
+                </div>
             </div>
         </div>
     );
