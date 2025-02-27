@@ -34,7 +34,7 @@ export function DashboardForm() {
         fetchBalance();
     }, []);
 
-    const handleTransaction = async (type: "add" | "withdraw", amount: number = 100) => {
+    const handleTransaction = async (type: "add" | "withdraw", amount: number) => {
         try {
             const res = await fetch("/api/wallet", {
                 method: "POST",
@@ -115,21 +115,25 @@ export function DashboardForm() {
                     </Button>
                 </div>
 
-                {/* Show Add Money Popup */}
                 {showPopup && (
                     <AddMoney
-                        onClose={() => setShowPopup(false)}
-                        onConfirm={(amount) => handleTransaction("add", amount)}
+                        onCloseAction={() => setShowPopup(false)}
+                        onConfirmAction={(amount: number) => {
+                            handleTransaction("add", amount);
+                        }}
                     />
                 )}
 
-                {/* Show Withdraw Money Popup */}
                 {showWithdrawPopup && (
                     <WithdrawMoney
-                        onClose={() => setShowWithdrawPopup(false)}
-                        onConfirm={(amount) => handleTransaction("withdraw", amount)}
+                        onCloseAction={() => setShowWithdrawPopup(false)}
+                        onConfirmAction={(amount: number) => {
+                            handleTransaction("withdraw", amount);
+                        }}
                     />
                 )}
+
+
 
                 {/* Transaction History */}
                 <div className="relative bg-white p-6 rounded-lg shadow-md">

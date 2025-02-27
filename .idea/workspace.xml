@@ -5,10 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/coming-soon/route.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/coming-soon/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/coming-soon-form.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin-dashboard/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/admin-dashboard/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/admin-add-user.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/admin-ban-user.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/admin-delete-user.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/admin-give-money.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/admin-withdraw-money.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/add-money.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/add-money.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/withdraw-money.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/withdraw-money.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/migration_lock.toml" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/migrations/migration_lock.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +106,7 @@
       <workItem from="1739892842252" duration="153000" />
       <workItem from="1739893004160" duration="100000" />
       <workItem from="1740651263290" duration="2005000" />
-      <workItem from="1740668393192" duration="9876000" />
+      <workItem from="1740668393192" duration="16016000" />
     </task>
     <servers />
   </component>
