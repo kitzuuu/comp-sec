@@ -3,11 +3,27 @@ import prisma from "@/lib/database";
 
 // Caesar Cipher Decryption Function
 function caesarCipherDecrypt(text: string, shift: number): string {
-    return text.replace(/[a-zA-Z]/g, (char) => {
-        const base = char >= "a" ? 97 : 65;
-        return String.fromCharCode(((char.charCodeAt(0) - base - shift + 26) % 26) + base);
+    return text.replace(/[a-zA-Z0-9]/g, (char) => {
+        let base: number;
+        let range: number;
+
+        if (char >= "a" && char <= "z") {
+            base = 97;
+            range = 26;
+        } else if (char >= "A" && char <= "Z") {
+            base = 65;
+            range = 26;
+        } else if (char >= "0" && char <= "9") {
+            base = 48;
+            range = 10;
+        } else {
+            return char;
+        }
+
+        return String.fromCharCode(((char.charCodeAt(0) - base - shift + range) % range) + base);
     });
 }
+
 
 export async function GET(req: Request) {
     try {
@@ -28,7 +44,8 @@ export async function GET(req: Request) {
         const decryptedPassword = caesarCipherDecrypt(user.password, 3);
 
         return NextResponse.json({ password: decryptedPassword }, { status: 200 });
-    } catch  {
+    } catch {
         return NextResponse.json({ message: "Error retrieving password" }, { status: 500 });
     }
 }
+
