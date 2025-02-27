@@ -24,10 +24,12 @@ export function Navigation() {
                     <Link href="/dashboard" className="px-4 py-3 rounded-md bg-opacity-30 hover:bg-opacity-50 transition">
                         Home
                     </Link>
-                    <Link href="#" className="px-4 py-3 rounded-md bg-opacity-30 hover:bg-opacity-50 transition">
+                    {/* Redirect Portfolio to Coming Soon Page */}
+                    <Link href="/coming-soon" className="px-4 py-3 rounded-md bg-opacity-30 hover:bg-opacity-50 transition">
                         Portfolio
                     </Link>
-                    <Link href="#" className="px-4 py-3 rounded-md bg-opacity-30 hover:bg-opacity-50 transition">
+                    {/* Redirect Markets to Coming Soon Page */}
+                    <Link href="/coming-soon" className="px-4 py-3 rounded-md bg-opacity-30 hover:bg-opacity-50 transition">
                         Markets
                     </Link>
                     <button
