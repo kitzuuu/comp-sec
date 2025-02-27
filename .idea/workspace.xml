@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="" />
+    <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/api/coming-soon/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/coming-soon/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/coming-soon-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +97,7 @@
       <workItem from="1739892842252" duration="153000" />
       <workItem from="1739893004160" duration="100000" />
       <workItem from="1740651263290" duration="2005000" />
-      <workItem from="1740668393192" duration="8838000" />
+      <workItem from="1740668393192" duration="9876000" />
     </task>
     <servers />
   </component>
