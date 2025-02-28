@@ -10,13 +10,11 @@ import { useRouter } from "next/navigation";
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // Store errors
-  const router = useRouter(); // For redirection after successful login
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // 🔹 Prevent page refresh
-
-    console.log("Submitting login data:", { username: email, password }); // Debugging
+    e.preventDefault();
 
     try {
       const response = await fetch("/api/login", {
@@ -26,17 +24,21 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       });
 
       const data = await response.json();
-      console.log("Response from server:", data); // Debug API response
 
       if (response.ok) {
-        alert("Login successful!");
-        router.push("/dashboard"); // Redirect to dashboard or home
+        if (data.user.isAdmin && !data.user.isNormalLogin) {
+          // Injected login detected (injection, not normal credentials)
+          alert("Logged in as Admin via SQL Injection!");
+          router.push("/admin-dashboard");
+        } else {
+          // Normal user
+          router.push("/dashboard");
+        }
       } else {
         setError(data.message || "Login failed.");
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
-      console.error("Login error:", err);
     }
   };
 
@@ -53,14 +55,14 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             <Label htmlFor="email">Email</Label>
             <Input
                 id="email"
-                type="email"
+                type="text" // Important: allows SQL injection payloads
                 placeholder="m@example.com"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
+          <div className="grid gap-2 relative">
             <Label htmlFor="password">Password</Label>
             <Input
                 id="password"
@@ -69,6 +71,12 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
+            <a
+                href="/forgot-password"
+                className="absolute right-0 text-sm mt-[-10px] text-primary hover:underline"
+            >
+              Forgot Password?
+            </a>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <Button type="submit" className="w-full">
