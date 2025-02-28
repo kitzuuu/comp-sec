@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/database";
 
-// Caesar Cipher Decryption (Supports Letters & Numbers)
+type User = {
+    id: number;
+    username: string;
+    password: string;
+    balance: number;
+    blocked: boolean;
+    admin: boolean;
+};
+
 function caesarCipherDecrypt(text: string, shift: number): string {
     return text.replace(/[a-zA-Z0-9]/g, (char) => {
         let base: number;
@@ -19,7 +27,6 @@ function caesarCipherDecrypt(text: string, shift: number): string {
         } else {
             return char;
         }
-
         return String.fromCharCode(((char.charCodeAt(0) - base - shift + range) % range) + base);
     });
 }
@@ -28,23 +35,26 @@ export async function POST(req: Request) {
     try {
         const { username, password } = await req.json();
 
-        // Fetch the user from the database
-        const user = await prisma.users.findUnique({ where: { username } });
-        if (!user) {
+        const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+        const result = await prisma.$queryRawUnsafe<User[]>(query);
+
+        if (result.length === 0) {
+            // A09: No logging of failed login attempts, preventing any monitoring of brute force or SQL injection.
             return NextResponse.json({ message: "Invalid username or password" }, { status: 401 });
         }
 
-        // Decrypt the password
+        const user = result[0];
         const decryptedPassword = caesarCipherDecrypt(user.password, 3);
+        const isNormalLogin = (user.username === username && decryptedPassword === password);
 
-        // Compare with input password
-        if (decryptedPassword !== password) {
-            return NextResponse.json({ message: "Invalid username or password" }, { status: 401 });
-        }
-
-        // Login successful
-        return NextResponse.json({ message: "Login successful", user }, { status: 200 });
+        return NextResponse.json({
+            message: "Login successful",
+            user: { username: user.username, isAdmin: user.admin, isNormalLogin }
+        }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ message: "Error logging in", error: error instanceof Error ? error.message : "Unknown error" }, { status: 500 });
+        return NextResponse.json({
+            message: "Error logging in",
+            error: error instanceof Error ? error.message : "Unknown error"
+        }, { status: 500 });
     }
 }

@@ -16,6 +16,16 @@ export default function AdminDashboard() {
         localStorage.setItem("lastVisitedAdminDashboard", "true");
     }, []);
 
+    async function fetchConfig() {
+        try {
+            const response = await fetch("/api/config");
+            const data = await response.json();
+            alert(`Database URL: ${data.DATABASE_URL}\nNode Env: ${data.NODE_ENV}\nSecret Key: ${data.SECRET_KEY}`);
+        } catch (error) {
+            alert("Failed to fetch config.");
+        }
+    }
+
     return (
         <div className="flex h-screen w-screen">
             <Navigation /> {/* Sidebar Component */}
@@ -29,6 +39,7 @@ export default function AdminDashboard() {
                     <Button onClick={() => setPopup("banUser")} className="bg-gray-500">Ban User</Button>
                     <Button onClick={() => setPopup("giveMoney")} className="bg-green-500">Give Money</Button>
                     <Button onClick={() => setPopup("withdrawMoney")} className="bg-orange-500">Withdraw Money</Button>
+                    <Button onClick={fetchConfig} className="bg-purple-500">View Config</Button>
                 </div>
 
                 {popup === "addUser" && <AdminAddUser onClose={() => setPopup(null)} />}

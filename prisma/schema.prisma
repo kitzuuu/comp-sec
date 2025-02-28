@@ -11,6 +11,7 @@ model users {
   id       Int     @id @default(autoincrement())
   username String  @unique
   password String
-  balance  Int     @default(1000)
-  blocked  Boolean @default(false)
+  balance  Int
+  blocked  Boolean
+  admin    Boolean @default(false) // This is the new column
 }
