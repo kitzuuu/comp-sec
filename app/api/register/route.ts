@@ -42,7 +42,13 @@ export async function POST(req: Request) {
 
         // Store in database
         const newUser = await prisma.users.create({
-            data: { username, password: encryptedPassword }
+            data: {
+                username,
+                password: encryptedPassword,
+                balance: 0,            // Added
+                blocked: false,         // Added
+                admin: false            // Added
+            }
         });
 
         return NextResponse.json({ message: "User registered successfully", user: newUser }, { status: 201 });

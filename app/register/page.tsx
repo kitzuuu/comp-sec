@@ -1,4 +1,5 @@
 import { RegisterForm } from "@/components/register-form";
+import Image from "next/image";
 
 export default function RegisterPage() {
     return (
@@ -16,7 +17,7 @@ export default function RegisterPage() {
                 </div>
             </div>
             <div className="relative hidden bg-muted lg:block">
-                <img
+                <Image
                     src="/login-pic.svg"
                     alt="Image"
                     className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"

@@ -22,7 +22,7 @@ export default function AdminDashboard() {
             const data = await response.json();
             alert(`Database URL: ${data.DATABASE_URL}\nNode Env: ${data.NODE_ENV}\nSecret Key: ${data.SECRET_KEY}`);
         } catch (error) {
-            alert("Failed to fetch config.");
+            alert("Failed to fetch config. "+error);
         }
     }
 

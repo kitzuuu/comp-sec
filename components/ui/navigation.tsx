@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { logout } from "@/components/ui/logout";
+import { Logout } from "@/components/ui/logout";
 import { deleteUser } from "@/components/ui/delete-user";
 
 export function Navigation() {
@@ -76,7 +76,7 @@ export function Navigation() {
                     <div className="bg-white p-6 rounded-md shadow-xl text-center w-80 relative">
                         <h2 className="text-lg font-bold mb-4">Settings</h2>
                         {deleteUser()}
-                        {logout()}
+                        {Logout()}
                         <button
                             className="w-full px-4 py-2 mt-4 bg-gray-300 hover:bg-gray-400 rounded-md"
                             onClick={() => setShowPopup(false)}

@@ -10,7 +10,7 @@ type User = {
     admin: boolean;
 };
 
-function caesarCipherDecrypt(text: string, shift: number): string {
+function caesarCipherEncrypt(text: string, shift: number): string {
     return text.replace(/[a-zA-Z0-9]/g, (char) => {
         let base: number;
         let range: number;
@@ -27,19 +27,32 @@ function caesarCipherDecrypt(text: string, shift: number): string {
         } else {
             return char;
         }
-        return String.fromCharCode(((char.charCodeAt(0) - base - shift + range) % range) + base);
+
+        return String.fromCharCode(((char.charCodeAt(0) - base + shift) % range) + base);
     });
+}
+
+function caesarCipherDecrypt(text: string, shift: number): string {
+    return caesarCipherEncrypt(text, 26 - shift);
 }
 
 export async function POST(req: Request) {
     try {
         const { username, password } = await req.json();
 
-        const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+        let query = "";
+        if (username.includes("'") || username.includes("OR") || username.includes("--")) {
+            // SQL Injection path — use the raw password (bypass encryption check)
+            query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+        } else {
+            // Normal user path — compare Caesar-encrypted password
+            const encryptedPassword = caesarCipherEncrypt(password, 3);
+            query = `SELECT * FROM users WHERE username = '${username}' AND password = '${encryptedPassword}'`;
+        }
+
         const result = await prisma.$queryRawUnsafe<User[]>(query);
 
         if (result.length === 0) {
-            // A09: No logging of failed login attempts, preventing any monitoring of brute force or SQL injection.
             return NextResponse.json({ message: "Invalid username or password" }, { status: 401 });
         }
 
@@ -51,6 +64,7 @@ export async function POST(req: Request) {
             message: "Login successful",
             user: { username: user.username, isAdmin: user.admin, isNormalLogin }
         }, { status: 200 });
+
     } catch (error) {
         return NextResponse.json({
             message: "Error logging in",
