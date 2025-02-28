@@ -1,6 +1,13 @@
+"use client";
+import { useEffect } from "react";
 import { DashboardForm } from "@/components/dashboard-form";
 
 export default function DashboardPage() {
+    useEffect(() => {
+        // Mark regular dashboard as last visited
+        localStorage.setItem("lastVisitedAdminDashboard", "false");
+    }, []);
+
     return (
         <div className="relative flex justify-center items-center min-h-screen bg-gray-100">
             {/* Background Image */}

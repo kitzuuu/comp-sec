@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AdminAddUser } from "@/components/ui/admin-add-user";
 import { AdminDeleteUser } from "@/components/ui/admin-delete-user";
 import { AdminBanUser } from "@/components/ui/admin-ban-user";
@@ -10,6 +10,11 @@ import { Navigation } from "@/components/ui/navigation"; // Sidebar navigation
 
 export default function AdminDashboard() {
     const [popup, setPopup] = useState<string | null>(null);
+
+    useEffect(() => {
+        // Mark admin dashboard as last visited
+        localStorage.setItem("lastVisitedAdminDashboard", "true");
+    }, []);
 
     return (
         <div className="flex h-screen w-screen">
