@@ -11,11 +11,14 @@ export function DashboardForm() {
     const [transactions, setTransactions] = useState<{ type: string; amount: number; date: string; time: string; user: string; status: string }[]>([]);
     const [showPopup, setShowPopup] = useState(false);
     const [showWithdrawPopup, setShowWithdrawPopup] = useState(false);
+    const username = typeof window !== "undefined" ? sessionStorage.getItem("username") : null; // ✅ Get username from session storage
 
     useEffect(() => {
         const fetchBalance = async () => {
+            if (!username) return; // ✅ Ensure username is available
+
             try {
-                const res = await fetch("/api/wallet", { method: "GET" });
+                const res = await fetch(`/api/wallet?username=${username}`, { method: "GET" });
                 const data = await res.json();
                 if (res.ok) {
                     setBalance(data.balance);
@@ -32,14 +35,16 @@ export function DashboardForm() {
         }
 
         fetchBalance();
-    }, []);
+    }, [username]); // ✅ Dependency added for username
 
     const handleTransaction = async (type: "add" | "withdraw", amount: number) => {
+        if (!username) return; // ✅ Ensure username exists before making request
+
         try {
             const res = await fetch("/api/wallet", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ type, amount }),
+                body: JSON.stringify({ username, type, amount }), // ✅ Include username in request
             });
 
             const data = await res.json();
@@ -55,7 +60,7 @@ export function DashboardForm() {
                         amount,
                         date: formattedDate,
                         time: formattedTime,
-                        user: "Current User",
+                        user: username, // ✅ Ensure correct username is stored
                         status: "Completed",
                     };
 
@@ -66,20 +71,7 @@ export function DashboardForm() {
                     });
                 }, 2000);
             } else {
-                const failedTransaction = {
-                    type,
-                    amount,
-                    date: formattedDate,
-                    time: formattedTime,
-                    user: "Current User",
-                    status: "Failed",
-                };
-
-                setTransactions((prev) => {
-                    const updatedHistory = [failedTransaction, ...prev].slice(0, 8);
-                    localStorage.setItem("transactionHistory", JSON.stringify(updatedHistory));
-                    return updatedHistory;
-                });
+                console.log("❌ Transaction failed.");
             }
         } catch (error) {
             console.log("❌ Error processing transaction:", error);
@@ -132,8 +124,6 @@ export function DashboardForm() {
                         }}
                     />
                 )}
-
-
 
                 {/* Transaction History */}
                 <div className="relative bg-white p-6 rounded-lg shadow-md">
