@@ -26,6 +26,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       const data = await response.json();
 
       if (response.ok) {
+        // ✅ Save username in session storage
+        sessionStorage.setItem("username", data.user.username);
+
         if (data.user.isAdmin) {
           // Admin user — save flag for later (helps with navigation logic if needed)
           localStorage.setItem("isAdmin", "true");
@@ -38,7 +41,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       } else {
         setError(data.message || "Login failed.");
       }
-    } catch (err) {
+    } catch {
       setError("An error occurred. Please try again.");
     }
   };
@@ -56,7 +59,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             <Label htmlFor="email">Email</Label>
             <Input
                 id="email"
-                type="text" // Important for allowing SQL injection payloads
+                type="text"
                 placeholder="m@example.com"
                 required
                 value={email}

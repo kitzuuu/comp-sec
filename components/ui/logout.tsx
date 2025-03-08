@@ -6,16 +6,24 @@ export function logout() {
 
     const handleLogout = async () => {
         try {
-            const res = await fetch("/api/logout", { method: "POST" }); // API call to log out
+            const res = await fetch("/api/logout", { method: "POST" });
+            const data = await res.json();
+
             if (res.ok) {
                 console.log("✅ User logged out.");
-                alert("You have been logged out.");
-                router.push("/"); // Redirect to homepage
+
+                // ✅ Remove username from session storage
+                sessionStorage.removeItem("username");
+
+                // ✅ Redirect to login page
+                router.push(data.redirect);
             } else {
-                console.log("Error logging out.");
+                console.log("❌ Logout error:", data.message);
+                router.push("/login"); // Redirect even if there's an issue
             }
         } catch (error) {
-            console.log("Error processing logout:", error);
+            console.log("❌ Error processing logout:", error);
+            router.push("/login"); // Redirect in case of an error
         }
     };
 
