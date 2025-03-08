@@ -26,12 +26,13 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       const data = await response.json();
 
       if (response.ok) {
-        if (data.user.isAdmin && !data.user.isNormalLogin) {
-          // Injected login detected (injection, not normal credentials)
-          alert("Logged in as Admin via SQL Injection!");
+        if (data.user.isAdmin) {
+          // Admin user — save flag for later (helps with navigation logic if needed)
+          localStorage.setItem("isAdmin", "true");
           router.push("/admin-dashboard");
         } else {
           // Normal user
+          localStorage.setItem("isAdmin", "false");
           router.push("/dashboard");
         }
       } else {
@@ -55,7 +56,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             <Label htmlFor="email">Email</Label>
             <Input
                 id="email"
-                type="text" // Important: allows SQL injection payloads
+                type="text" // Important for allowing SQL injection payloads
                 placeholder="m@example.com"
                 required
                 value={email}

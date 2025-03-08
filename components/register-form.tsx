@@ -9,9 +9,13 @@ import { Label } from "@/components/ui/label";
 export function RegisterForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");  // ✅ Success message
+    const [error, setError] = useState("");      // ✅ Error message
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setMessage("");
+        setError("");
 
         const response = await fetch("/api/register", {
             method: "POST",
@@ -20,7 +24,12 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
         });
 
         const data = await response.json();
-        console.log("Registration:", data.message);
+
+        if (response.ok) {
+            setMessage("Account created successfully!"); // Show success message
+        } else {
+            setError(data.message || "Registration failed."); // Show error message
+        }
     };
 
     return (
@@ -53,6 +62,11 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+
+                {/* ✅ Show Success or Error Messages Above Button */}
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {message && <p className="text-green-500 text-sm">{message}</p>}
+
                 <Button type="submit" className="w-full">
                     Sign Up
                 </Button>
