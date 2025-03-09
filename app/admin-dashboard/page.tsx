@@ -7,7 +7,7 @@ import { AdminBanUser } from "@/components/ui/admin-ban-user";
 import { AdminGiveMoney } from "@/components/ui/admin-give-money";
 import { AdminWithdrawMoney } from "@/components/ui/admin-withdraw-money";
 import { Button } from "@/components/ui/button";
-import { Navigation } from "@/components/ui/navigation"; // Sidebar
+import { Navigation } from "@/components/ui/navigation";
 
 export default function AdminDashboard() {
     const router = useRouter();
