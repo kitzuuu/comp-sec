@@ -11,7 +11,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Email is required." }, { status: 400 });
         }
 
-        // ✅ ADD USER
         if (type === "add") {
             if (!name || !verificationAnswer || !password) {
                 return NextResponse.json({ message: "All fields are required for adding a user." }, { status: 400 });
@@ -40,7 +39,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "User added successfully!" }, { status: 201 });
         }
 
-        // ✅ DELETE USER
         if (type === "delete") {
             const user = await prisma.users.findUnique({ where: { email } });
             if (!user) {
@@ -51,7 +49,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "User deleted successfully!" }, { status: 200 });
         }
 
-        // ✅ BAN USER
         if (type === "ban") {
             const user = await prisma.users.findUnique({ where: { email } });
             if (!user) {
@@ -66,13 +63,11 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "User banned successfully!" }, { status: 200 });
         }
 
-        // ✅ GIVE MONEY
         if (type === "give") {
             if (!amount || isNaN(amount) || amount <= 0) {
                 return NextResponse.json({ message: "Valid amount is required." }, { status: 400 });
             }
 
-            // ✅ Fetch user before updating balance
             const user = await prisma.users.findUnique({ where: { email } });
             if (!user) {
                 return NextResponse.json({ message: "User not found." }, { status: 404 });
@@ -86,13 +81,11 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: `Added $${amount} to ${email}` }, { status: 200 });
         }
 
-        // ✅ WITHDRAW MONEY
         if (type === "withdraw") {
             if (!amount || isNaN(amount) || amount <= 0) {
                 return NextResponse.json({ message: "Valid amount is required." }, { status: 400 });
             }
 
-            // ✅ Fetch user before updating balance
             const user = await prisma.users.findUnique({ where: { email } });
             if (!user) {
                 return NextResponse.json({ message: "User not found." }, { status: 404 });
@@ -112,7 +105,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ message: "Invalid request type." }, { status: 400 });
     } catch (error) {
-        console.error("❌ Error processing admin action:", error);
+        console.error("Error processing admin action:", error);
         return NextResponse.json({ message: "Error processing request." }, { status: 500 });
     }
 }

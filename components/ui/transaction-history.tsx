@@ -1,7 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
 
-// Define Props Type
 interface TransactionHistoryProps {
     transactions: { type: string; amount: number; date: string; time: string; user: string; status: string }[];
 }

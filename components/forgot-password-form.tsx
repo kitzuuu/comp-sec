@@ -14,11 +14,6 @@ export function ForgotPasswordForm() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [stage, setStage] = useState("request");
     const [message, setMessage] = useState("");
-
-    const validatePassword = (password: string) => {
-        return /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(password);
-    };
-
     const handleRequestReset = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage("");
@@ -27,7 +22,7 @@ export function ForgotPasswordForm() {
 
 
         if (!email.trim() || !name.trim() || !selectedQuestion.trim() || !securityAnswer.trim()) {
-            setMessage("❌ All fields are required.");
+            setMessage("All fields are required.");
             return;
         }
 
@@ -48,7 +43,7 @@ export function ForgotPasswordForm() {
                 setMessage(data.message || "Error resetting password.");
             }
         } catch {
-            setMessage("❌ Error processing request. Please try again.");
+            setMessage("Error processing request. Please try again.");
         }
     };
 
@@ -57,7 +52,7 @@ export function ForgotPasswordForm() {
         setMessage("");
 
         if (!token.trim() || !newPassword.trim() || !confirmPassword.trim()) {
-            setMessage("❌ All fields are required.");
+            setMessage("All fields are required.");
             return;
         }
 
@@ -67,7 +62,7 @@ export function ForgotPasswordForm() {
         }
 
         try {
-            const res = await fetch(`/api/reset-password`, { // ✅ Now sending to /api/reset-password
+            const res = await fetch(`/api/reset-password`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, token, newPassword }),
@@ -76,13 +71,13 @@ export function ForgotPasswordForm() {
             const data = await res.json();
 
             if (res.ok) {
-                alert("✅ Password successfully reset! Redirecting to login.");
+                alert("Password successfully reset! Redirecting to login.");
                 window.location.href = "/login";
             } else {
                 setMessage(data.message || "Error resetting password.");
             }
         } catch {
-            setMessage("❌ Error processing request. Please try again.");
+            setMessage("Error processing request. Please try again.");
         }
     };
 

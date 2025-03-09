@@ -43,7 +43,7 @@ export function AdminAddUser({ onCloseAction }: { onCloseAction: () => void }) {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    type: "add", // ✅ THIS WAS MISSING - NOW FIXED!
+                    type: "add",
                     name,
                     email,
                     verificationQuestion,
@@ -56,7 +56,7 @@ export function AdminAddUser({ onCloseAction }: { onCloseAction: () => void }) {
 
             if (response.ok) {
                 setMessage("User added successfully!");
-                setTimeout(() => onCloseAction(), 2000); // Close popup after success
+                setTimeout(() => onCloseAction(), 2000); 
             } else {
                 setError(data.message || "Failed to add user.");
             }
@@ -100,7 +100,7 @@ export function AdminAddUser({ onCloseAction }: { onCloseAction: () => void }) {
                         value={verificationQuestion}
                         onChange={(e) => setVerificationQuestion(e.target.value)}
                     >
-                        <option value="mother">What is your mother's name?</option>
+                        <option value="mother">What is your mother&#39;s name?</option>
                     </select>
                 </div>
 

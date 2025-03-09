@@ -10,7 +10,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [verificationQuestion, setVerificationQuestion] = useState("mother");
-    const [verificationAnswer, setVerificationAnswer] = useState(""); // ✅ Added input for security answer
+    const [verificationAnswer, setVerificationAnswer] = useState(""); 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -95,7 +95,7 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                         value={verificationQuestion}
                         onChange={(e) => setVerificationQuestion(e.target.value)}
                     >
-                        <option value="mother">What is your mother's name?</option>
+                        <option value="mother">What is your mother&#39;s name?</option>
                     </select>
                 </div>
                 <div className="grid gap-2">

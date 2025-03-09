@@ -10,12 +10,12 @@ export function AddMoney({ onCloseAction, onConfirmAction }: { onCloseAction: ()
         const numericAmount = Number(amount);
 
         if (isNaN(numericAmount) || numericAmount < 1 || numericAmount > 100000) {
-            setError("❌ Enter a valid amount (Min: $1, Max: $100,000).");
+            setError("Enter a valid amount (Min: $1, Max: $100,000).");
             return;
         }
 
         if (!password.trim()) {
-            setError("❌ Password is required.");
+            setError("Password is required.");
             return;
         }
 
@@ -25,7 +25,7 @@ export function AddMoney({ onCloseAction, onConfirmAction }: { onCloseAction: ()
         if (success) {
             onCloseAction();
         } else {
-            setError("❌ Incorrect password. Please try again.");
+            setError("Incorrect password. Please try again.");
         }
     };
 

@@ -13,32 +13,29 @@ export function DashboardForm() {
     const [showWithdrawPopup, setShowWithdrawPopup] = useState(false);
     const email = typeof window !== "undefined" ? sessionStorage.getItem("email") : null;
 
-    // ✅ Function to Fetch Balance
     const fetchBalance = async () => {
         if (!email) return;
         try {
             const res = await fetch(`/api/wallet?email=${email}`, { method: "GET" });
             const data = await res.json();
             if (res.ok) {
-                console.log("✅ Wallet balance updated:", data.balance);
+                console.log("Wallet balance updated:", data.balance);
                 setBalance(data.balance);
             }
         } catch (error) {
-            console.log("❌ Error fetching balance:", error);
+            console.log("Error fetching balance:", error);
         }
     };
 
-    // ✅ Fetch balance initially and every 5 sec
     useEffect(() => {
         if (!email) return;
 
         fetchBalance(); // Initial fetch
 
-        const interval = setInterval(fetchBalance, 5000); // Refresh every 5 seconds
+        const interval = setInterval(fetchBalance, 5000);
         return () => clearInterval(interval); // Clear interval on unmount
     }, [email]);
 
-    // ✅ Load transaction history from local storage
     useEffect(() => {
         const storedTransactions = localStorage.getItem("transactionHistory");
         if (storedTransactions) {
@@ -59,14 +56,12 @@ export function DashboardForm() {
             const data = await res.json();
 
             if (res.ok) {
-                console.log("✅ Transaction successful!");
+                console.log("Transaction successful!");
 
-                // ✅ Update balance immediately
                 setTimeout(() => {
                     setBalance(data.newBalance);
                 }, 3000); // Keep a 3-second delay to match UI behavior
 
-                // ✅ Save transaction history
                 const currentDate = new Date();
                 const newTransaction = {
                     type,
@@ -85,11 +80,11 @@ export function DashboardForm() {
 
                 return true;
             } else {
-                console.log("❌ Transaction failed:", data.message);
+                console.log("Transaction failed:", data.message);
                 return false;
             }
         } catch (error) {
-            console.log("❌ Error processing transaction:", error);
+            console.log("Error processing transaction:", error);
             return false;
         }
     };

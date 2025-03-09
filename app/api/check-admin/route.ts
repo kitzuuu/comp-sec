@@ -21,7 +21,7 @@ export async function GET(req: Request) {
 
         return NextResponse.json({ isAdmin: user.admin }, { status: 200 });
     } catch (error) {
-        console.error("❌ Error checking admin status:", error);
+        console.error("Error checking admin status:", error);
         return NextResponse.json({ message: "Error processing request" }, { status: 500 });
     }
 }

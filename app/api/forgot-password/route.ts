@@ -13,7 +13,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "All fields are required" }, { status: 400 });
         }
 
-        // Find user by email & name
         const user = await prisma.users.findFirst({
             where: { email, name },
         });
@@ -22,19 +21,15 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
 
-        // Verify security question answer (compare hashed value)
         const isAnswerCorrect = await bcrypt.compare(securityAnswer, user.verification);
         if (!isAnswerCorrect) {
             return NextResponse.json({ message: "Incorrect security answer" }, { status: 401 });
         }
 
-        // Generate a new reset token (random 6-digit number)
         const newToken = crypto.randomInt(100000, 999999).toString();
 
-        // Set expiration time (5 minutes)
         const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
-        // ✅ Overwrite the existing token
         await prisma.users.update({
             where: { email },
             data: {

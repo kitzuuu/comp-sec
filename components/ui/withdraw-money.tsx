@@ -10,12 +10,12 @@ export function WithdrawMoney({ onCloseAction, onConfirmAction }: { onCloseActio
         const numericAmount = Number(amount);
 
         if (isNaN(numericAmount) || numericAmount < 10 || numericAmount > 50000) {
-            setError("❌ Enter a valid amount (Min: $10, Max: $50,000).");
+            setError("Enter a valid amount (Min: $10, Max: $50,000).");
             return;
         }
 
         if (!password.trim()) {
-            setError("❌ Password is required.");
+            setError("Password is required.");
             return;
         }
 
@@ -25,7 +25,7 @@ export function WithdrawMoney({ onCloseAction, onConfirmAction }: { onCloseActio
         if (success) {
             onCloseAction();
         } else {
-            setError("❌ Incorrect password. Please try again.");
+            setError("Incorrect password. Please try again.");
         }
     };
 

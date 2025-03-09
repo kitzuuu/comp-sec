@@ -8,7 +8,6 @@ export async function POST(req: Request) {
 
         console.log(`[LOGIN ATTEMPT] Email: ${email}`);
 
-        // Prevent SQL injection by using Prisma ORMnow 
         const user = await prisma.users.findUnique({ where: { email } });
 
         if (!user) {
@@ -21,7 +20,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Your account is blocked" }, { status: 403 });
         }
 
-        // Compare the hashed password with bcrypt
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
             console.log(`[FAILED LOGIN] Email: ${email} - Incorrect password`);

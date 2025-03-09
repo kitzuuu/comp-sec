@@ -21,10 +21,10 @@ export function AdminWithdrawMoney({ onClose }: { onClose: () => void }) {
         }
 
         const response = await fetch("/api/admin-dashboard", {
-            method: "POST", // ✅ Use POST instead of PATCH
+            method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                type: "withdraw", // ✅ Correct request type for backend
+                type: "withdraw",
                 email,
                 amount: Number(amount),
             }),
@@ -34,7 +34,7 @@ export function AdminWithdrawMoney({ onClose }: { onClose: () => void }) {
 
         if (response.ok) {
             setMessage(`$${amount} withdrawn from ${email}`);
-            setTimeout(() => onClose(), 2000); // ✅ Close popup after success
+            setTimeout(() => onClose(), 2000);
         } else {
             setError(result.message || "Failed to withdraw money. Please try again.");
         }

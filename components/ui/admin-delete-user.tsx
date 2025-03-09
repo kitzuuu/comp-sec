@@ -33,7 +33,7 @@ export function AdminDeleteUser({ onClose }: { onClose: () => void }) {
 
             if (response.ok) {
                 setMessage("User deleted successfully!");
-                setTimeout(() => onClose(), 2000); // Close popup after success
+                setTimeout(() => onClose(), 2000);
             } else {
                 setError(data.message || "Failed to delete user.");
             }

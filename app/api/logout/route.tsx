@@ -1,15 +1,19 @@
-import { NextResponse } from "next/server";
+"use client";
 
-export async function POST() {
-    try {
-        // ✅ Clear session storage, cookies, or any authentication-related data if needed
-        console.log("✅ User logged out.");
+import { useRouter } from "next/navigation";
 
-        // ✅ Return a JSON response instead of trying to redirect directly
-        return NextResponse.json({ message: "Logout successful", redirect: "/login" }, { status: 200 });
+export function Logout() {
+    const router = useRouter();
 
-    } catch (error) {
-        console.log("❌ Error during logout:", error);
-        return NextResponse.json({ message: "Error logging out", redirect: "/login" }, { status: 500 });
-    }
+    const handleLogout = () => {
+        sessionStorage.removeItem("email");
+
+        router.push("/login");
+    };
+
+    return (
+        <button onClick={handleLogout} className="px-4 py-2 bg-red-500 text-white rounded-md">
+            Logout
+        </button>
+    );
 }

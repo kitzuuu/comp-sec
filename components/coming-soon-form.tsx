@@ -59,7 +59,6 @@ export function ComingSoonForm() {
                 </div>
             </div>
 
-            {/* Button to go back */}
             <button
                 onClick={() => window.location.href = "/dashboard"}
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md"

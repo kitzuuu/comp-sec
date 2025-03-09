@@ -18,7 +18,7 @@ export default function AdminDashboard() {
         const email = sessionStorage.getItem("email");
 
         if (!email) {
-            console.log("❌ No email found. Redirecting...");
+            console.log("No email found. Redirecting...");
             router.push("/login");
             return;
         }
@@ -29,25 +29,25 @@ export default function AdminDashboard() {
                 const data = await res.json();
 
                 if (!res.ok || !data.isAdmin) {
-                    console.log("❌ Not an admin. Redirecting...");
+                    console.log("Not an admin. Redirecting...");
                     router.push("/login");
                 } else {
                     setIsAdmin(true);
                 }
             } catch (error) {
-                console.log("❌ Error checking admin:", error);
+                console.log("Error checking admin:", error);
                 router.push("/login");
             }
         })();
     }, [router]);
 
     if (isAdmin === null) {
-        return <p>Loading...</p>; // Prevents flashing
+        return <p>Loading...</p>;
     }
 
     return (
         <div className="flex h-screen w-screen">
-            <Navigation /> {/* Sidebar Component */}
+            <Navigation />
 
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
                 <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>

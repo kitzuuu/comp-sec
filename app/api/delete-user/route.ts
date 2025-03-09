@@ -3,14 +3,12 @@ import prisma from "@/lib/database";
 
 export async function DELETE() {
     try {
-        // Assuming there is only one user for now
         const user = await prisma.users.findFirst();
         if (!user) {
             console.log("No user found.");
             return NextResponse.json({ message: "No user found" }, { status: 404 });
         }
 
-        // Delete user from database
         await prisma.users.delete({ where: { id: user.id } });
 
         console.log("User deleted successfully.");

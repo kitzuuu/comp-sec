@@ -11,14 +11,14 @@ export async function POST(req: Request) {
         const { email, type, amount, password } = requestData;
 
         if (!email || !type || !amount || !password) {
-            console.log("❌ Missing required fields:", { email, type, amount, password });
+            console.log("Missing required fields:", { email, type, amount, password });
             return NextResponse.json({ message: "Invalid request" }, { status: 400 });
         }
 
         const user = await prisma.users.findUnique({ where: { email } });
 
         if (!user) {
-            console.log("❌ User not found:", email);
+            console.log("User not found:", email);
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
 
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         const passwordMatches = await bcrypt.compare(password, user.password);
 
         if (!passwordMatches) {
-            console.log("❌ Password mismatch for user:", email);
+            console.log("Password mismatch for user:", email);
             return NextResponse.json({ message: "Incorrect password" }, { status: 401 });
         }
 
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
             newBalance += amount;
         } else if (type === "withdraw") {
             if (user.balance < amount) {
-                console.log("❌ Insufficient funds");
+                console.log("Insufficient funds");
                 return NextResponse.json({ message: "Insufficient funds" }, { status: 400 });
             }
             newBalance -= amount;
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ newBalance }, { status: 200 });
 
     } catch (error) {
-        console.error("❌ Error processing transaction:", error);
+        console.error("Error processing transaction:", error);
         return NextResponse.json({ message: "Error processing request" }, { status: 500 });
     }
 }

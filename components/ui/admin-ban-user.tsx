@@ -21,7 +21,7 @@ export function AdminBanUser({ onClose }: { onClose: () => void }) {
 
         try {
             const response = await fetch("/api/admin-dashboard", {
-                method: "POST", // ✅ Use POST and send type: "ban"
+                method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     type: "ban",
@@ -33,7 +33,7 @@ export function AdminBanUser({ onClose }: { onClose: () => void }) {
 
             if (response.ok) {
                 setMessage("User has been banned!");
-                setTimeout(() => onClose(), 2000); // ✅ Close popup after success
+                setTimeout(() => onClose(), 2000);
             } else {
                 setError(result.message || "Failed to ban user. Please try again.");
             }

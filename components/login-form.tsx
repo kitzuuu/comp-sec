@@ -27,13 +27,10 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       const data = await response.json();
 
       if (response.ok) {
-        // ✅ Store email in sessionStorage
         sessionStorage.setItem("email", data.user.email);
 
-        // ✅ Store admin status in localStorage
         localStorage.setItem("isAdmin", data.user.isAdmin ? "true" : "false");
 
-        // ✅ Redirect based on admin status
         router.push(data.user.redirect);
       } else {
         setError(data.message || "Login failed.");
@@ -85,7 +82,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
           </Button>
         </div>
         <div className="text-center text-sm">
-          Don't have an account?{" "}
+          Don&#39;t have an account?{" "}
           <a href="/register" className="underline underline-offset-4">
             Sign up
           </a>

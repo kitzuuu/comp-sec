@@ -25,7 +25,6 @@ export function Navigation() {
 
     const homeButtonClass = "px-4 py-3 rounded-md bg-opacity-30 hover:bg-opacity-50 transition";
 
-    // Closes the popup if clicking outside of it
     const handleClosePopup = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).id === "popup-overlay") {
             setShowPopup(false);
@@ -38,7 +37,6 @@ export function Navigation() {
                 <h1 className="text-xl font-bold mb-6 text-center">Trading Dashboard</h1>
 
                 <nav className="flex flex-col space-y-3">
-                    {/* Home button looks the same, just becomes non-clickable */}
                     {isDashboardPage ? (
                         <span className={`${homeButtonClass} cursor-not-allowed pointer-events-none`}>
                             Home
@@ -66,7 +64,6 @@ export function Navigation() {
                 </nav>
             </aside>
 
-            {/* Settings Popup */}
             {showPopup && (
                 <div
                     id="popup-overlay"

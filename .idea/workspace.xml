@@ -8,11 +8,35 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/admin-dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin-dashboard/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/admin-dashboard/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/admin-dashboard/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/check-admin/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/check-admin/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/coming-soon/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/coming-soon/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/config/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/config/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/dashboard/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/dashboard/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/delete-user/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/delete-user/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/forgot-password/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/forgot-password/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/login/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/login/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/logout/route.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/logout/route.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/register/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/register/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/wallet/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/wallet/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/coming-soon/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/coming-soon/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/forgot-password/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/forgot-password/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/not-found.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/not-found.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/coming-soon-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/coming-soon-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/forgot-password-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/forgot-password-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/login-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/login-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/register-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/register-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/add-money.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/add-money.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/admin-add-user.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/admin-add-user.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/admin-ban-user.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/admin-ban-user.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/admin-delete-user.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/admin-delete-user.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/admin-give-money.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/admin-give-money.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ui/admin-withdraw-money.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/admin-withdraw-money.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/logout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/logout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/transaction-history.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/transaction-history.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/withdraw-money.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/withdraw-money.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
