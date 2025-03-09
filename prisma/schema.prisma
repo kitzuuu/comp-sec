@@ -7,11 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id       Int     @id @default(autoincrement())
-  username String  @unique
-  password String
-  balance  Int
-  blocked  Boolean
-  admin    Boolean @default(false) // This is the new column
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  verification String
+  password     String
+  balance      Int       @default(0)
+  admin        Boolean   @default(false)
+  blocked      Boolean   @default(false)
+  token        String?
+  tokenExpires DateTime?
 }
