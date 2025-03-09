@@ -5,30 +5,63 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
 
-export function AdminAddUser({ onClose }: { onClose: () => void }) {
+export function AdminAddUser({ onCloseAction }: { onCloseAction: () => void }) {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [verificationQuestion, setVerificationQuestion] = useState("mother");
+    const [verificationAnswer, setVerificationAnswer] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
+
+    const validatePassword = (password: string) => {
+        return /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(password);
+    };
 
     const handleAddUser = async () => {
-        if (!email.trim() || !password.trim()) {
-            setError("Both email and password are required.");
+        setError(null);
+        setMessage(null);
+
+        if (!name.trim() || !email.trim() || !verificationAnswer.trim() || !password.trim() || !confirmPassword.trim()) {
+            setError("All fields are required.");
             return;
         }
 
-        setError(null);  // Clear previous error if any.
+        if (password !== confirmPassword) {
+            setError("Passwords do not match.");
+            return;
+        }
 
-        const response = await fetch("/api/admin-dashboard", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-        });
+        if (!validatePassword(password)) {
+            setError("Password must be at least 8 characters, contain 1 uppercase letter, 1 number, and 1 symbol.");
+            return;
+        }
 
-        if (response.ok) {
-            onClose();  // Close popup on success.
-        } else {
+        try {
+            const response = await fetch("/api/admin-dashboard", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    type: "add", // ✅ THIS WAS MISSING - NOW FIXED!
+                    name,
+                    email,
+                    verificationQuestion,
+                    verificationAnswer,
+                    password,
+                }),
+            });
+
             const data = await response.json();
-            setError(data.message || "Failed to add user. Please try again.");
+
+            if (response.ok) {
+                setMessage("User added successfully!");
+                setTimeout(() => onCloseAction(), 2000); // Close popup after success
+            } else {
+                setError(data.message || "Failed to add user.");
+            }
+        } catch {
+            setError("Error adding user. Please try again.");
         }
     };
 
@@ -38,7 +71,18 @@ export function AdminAddUser({ onClose }: { onClose: () => void }) {
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">Add New User</h2>
 
                 <div className="mb-4">
-                    <Label htmlFor="email" className="block mb-2">User Email</Label>
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                        id="name"
+                        type="text"
+                        placeholder="Enter full name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <Label htmlFor="email">Email</Label>
                     <Input
                         id="email"
                         type="email"
@@ -49,20 +93,55 @@ export function AdminAddUser({ onClose }: { onClose: () => void }) {
                 </div>
 
                 <div className="mb-4">
-                    <Label htmlFor="password" className="block mb-2">Password</Label>
+                    <Label htmlFor="verification">Security Question</Label>
+                    <select
+                        id="verification"
+                        className="border rounded-md p-2 w-full"
+                        value={verificationQuestion}
+                        onChange={(e) => setVerificationQuestion(e.target.value)}
+                    >
+                        <option value="mother">What is your mother's name?</option>
+                    </select>
+                </div>
+
+                <div className="mb-4">
+                    <Label htmlFor="verificationAnswer">Answer to Security Question</Label>
+                    <Input
+                        id="verificationAnswer"
+                        type="text"
+                        placeholder="Enter your answer"
+                        value={verificationAnswer}
+                        onChange={(e) => setVerificationAnswer(e.target.value)}
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <Label htmlFor="password">Password</Label>
                     <Input
                         id="password"
                         type="password"
-                        placeholder="Enter user password"
+                        placeholder="Enter password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
 
-                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                <div className="mb-4">
+                    <Label htmlFor="confirm-password">Confirm Password</Label>
+                    <Input
+                        id="confirm-password"
+                        type="password"
+                        placeholder="Confirm password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                </div>
+
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {message && <p className="text-green-500 text-sm">{message}</p>}
 
                 <div className="flex justify-end space-x-4 mt-6">
-                    <Button variant="secondary" onClick={onClose}>Cancel</Button>
+                    <Button variant="secondary" onClick={onCloseAction}>Cancel</Button>
                     <Button variant="default" onClick={handleAddUser}>Add User</Button>
                 </div>
             </div>

@@ -7,46 +7,42 @@ import { AdminBanUser } from "@/components/ui/admin-ban-user";
 import { AdminGiveMoney } from "@/components/ui/admin-give-money";
 import { AdminWithdrawMoney } from "@/components/ui/admin-withdraw-money";
 import { Button } from "@/components/ui/button";
-import { Navigation } from "@/components/ui/navigation"; // Sidebar navigation
+import { Navigation } from "@/components/ui/navigation"; // Sidebar
 
 export default function AdminDashboard() {
     const router = useRouter();
     const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
-    const [popup, setPopup] = useState<string | null>(null); // ✅ Restored `popup` state
+    const [popup, setPopup] = useState<string | null>(null);
 
     useEffect(() => {
         const email = sessionStorage.getItem("email");
 
         if (!email) {
-            console.log("❌ No email found in session. Redirecting to login...");
+            console.log("❌ No email found. Redirecting...");
             router.push("/login");
             return;
         }
 
-        // ✅ Use an Immediately Invoked Async Function (IIFE)
         (async () => {
             try {
                 const res = await fetch(`/api/check-admin?email=${email}`);
                 const data = await res.json();
 
                 if (!res.ok || !data.isAdmin) {
-                    console.log("❌ User is not an admin. Redirecting...");
+                    console.log("❌ Not an admin. Redirecting...");
                     router.push("/login");
                 } else {
                     setIsAdmin(true);
                 }
             } catch (error) {
-                console.log("❌ Error checking admin status:", error);
+                console.log("❌ Error checking admin:", error);
                 router.push("/login");
             }
-        })(); // ✅ This immediately calls the function and awaits it
-
+        })();
     }, [router]);
 
-
-
     if (isAdmin === null) {
-        return <p>Loading...</p>; // Show a loading state before redirecting
+        return <p>Loading...</p>; // Prevents flashing
     }
 
     return (
@@ -56,7 +52,6 @@ export default function AdminDashboard() {
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
                 <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-                {/* ✅ Buttons to Open Popups */}
                 <div className="grid grid-cols-3 gap-4">
                     <Button onClick={() => setPopup("addUser")} className="bg-blue-500">Add User</Button>
                     <Button onClick={() => setPopup("deleteUser")} className="bg-red-500">Delete User</Button>
@@ -65,8 +60,7 @@ export default function AdminDashboard() {
                     <Button onClick={() => setPopup("withdrawMoney")} className="bg-orange-500">Withdraw Money</Button>
                 </div>
 
-                {/* ✅ Popups (Restored Functionality) */}
-                {popup === "addUser" && <AdminAddUser onClose={() => setPopup(null)} />}
+                {popup === "addUser" && <AdminAddUser onCloseAction={() => setPopup(null)} />}
                 {popup === "deleteUser" && <AdminDeleteUser onClose={() => setPopup(null)} />}
                 {popup === "banUser" && <AdminBanUser onClose={() => setPopup(null)} />}
                 {popup === "giveMoney" && <AdminGiveMoney onClose={() => setPopup(null)} />}

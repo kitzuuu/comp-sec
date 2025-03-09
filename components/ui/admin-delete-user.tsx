@@ -8,27 +8,37 @@ import { Label } from "./label";
 export function AdminDeleteUser({ onClose }: { onClose: () => void }) {
     const [email, setEmail] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
 
     const handleDeleteUser = async () => {
+        setError(null);
+        setMessage(null);
+
         if (!email.trim()) {
-            setError("User email is required.");
+            setError("Email is required.");
             return;
         }
 
-        setError(null);  // Clear any previous error
+        try {
+            const response = await fetch("/api/admin-dashboard", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    type: "delete",
+                    email,
+                }),
+            });
 
-        const response = await fetch("/api/admin-dashboard", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
-        });
+            const data = await response.json();
 
-        const result = await response.json();
-
-        if (response.ok) {
-            onClose();  // Close the popup if successful
-        } else {
-            setError(result.message || "Failed to delete user. Please try again.");
+            if (response.ok) {
+                setMessage("User deleted successfully!");
+                setTimeout(() => onClose(), 2000); // Close popup after success
+            } else {
+                setError(data.message || "Failed to delete user.");
+            }
+        } catch {
+            setError("Error deleting user. Please try again.");
         }
     };
 
@@ -38,7 +48,7 @@ export function AdminDeleteUser({ onClose }: { onClose: () => void }) {
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">Delete User</h2>
 
                 <div className="mb-4">
-                    <Label htmlFor="email" className="block mb-2">User Email</Label>
+                    <Label htmlFor="email">User Email</Label>
                     <Input
                         id="email"
                         type="email"
@@ -46,12 +56,14 @@ export function AdminDeleteUser({ onClose }: { onClose: () => void }) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                 </div>
+
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {message && <p className="text-green-500 text-sm">{message}</p>}
 
                 <div className="flex justify-end space-x-4 mt-6">
                     <Button variant="secondary" onClick={onClose}>Cancel</Button>
-                    <Button variant="destructive" onClick={handleDeleteUser}>Delete User</Button>
+                    <Button variant="destructive" onClick={handleDeleteUser}>Delete</Button>
                 </div>
             </div>
         </div>

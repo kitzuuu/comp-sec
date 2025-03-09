@@ -9,25 +9,32 @@ export function AdminWithdrawMoney({ onClose }: { onClose: () => void }) {
     const [email, setEmail] = useState("");
     const [amount, setAmount] = useState<number | string>("");
     const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
 
     const handleWithdrawMoney = async () => {
+        setError(null);
+        setMessage(null);
+
         if (!email.trim() || Number(amount) <= 0) {
             setError("Valid email and positive amount are required.");
             return;
         }
 
-        setError(null);  // Clear previous error
-
         const response = await fetch("/api/admin-dashboard", {
-            method: "PATCH",
+            method: "POST", // ✅ Use POST instead of PATCH
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, amount: Number(amount), type: "withdraw" }),
+            body: JSON.stringify({
+                type: "withdraw", // ✅ Correct request type for backend
+                email,
+                amount: Number(amount),
+            }),
         });
 
         const result = await response.json();
 
         if (response.ok) {
-            onClose();
+            setMessage(`$${amount} withdrawn from ${email}`);
+            setTimeout(() => onClose(), 2000); // ✅ Close popup after success
         } else {
             setError(result.message || "Failed to withdraw money. Please try again.");
         }
@@ -61,6 +68,7 @@ export function AdminWithdrawMoney({ onClose }: { onClose: () => void }) {
                 </div>
 
                 {error && <p className="text-red-500 text-sm">{error}</p>}
+                {message && <p className="text-green-500 text-sm">{message}</p>}
 
                 <div className="flex justify-end space-x-4 mt-6">
                     <Button variant="secondary" onClick={onClose}>Cancel</Button>

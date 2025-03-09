@@ -8,27 +8,37 @@ import { Label } from "./label";
 export function AdminBanUser({ onClose }: { onClose: () => void }) {
     const [email, setEmail] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
 
     const handleBanUser = async () => {
+        setError(null);
+        setMessage(null);
+
         if (!email.trim()) {
             setError("User email is required.");
             return;
         }
 
-        setError(null);  // Clear any previous error.
+        try {
+            const response = await fetch("/api/admin-dashboard", {
+                method: "POST", // ✅ Use POST and send type: "ban"
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    type: "ban",
+                    email,
+                }),
+            });
 
-        const response = await fetch("/api/admin-dashboard", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
-        });
+            const result = await response.json();
 
-        const result = await response.json();
-
-        if (response.ok) {
-            onClose();  // Close popup if successful.
-        } else {
-            setError(result.message || "Failed to ban user. Please try again.");
+            if (response.ok) {
+                setMessage("User has been banned!");
+                setTimeout(() => onClose(), 2000); // ✅ Close popup after success
+            } else {
+                setError(result.message || "Failed to ban user. Please try again.");
+            }
+        } catch {
+            setError("Error banning user. Please try again.");
         }
     };
 
@@ -47,6 +57,7 @@ export function AdminBanUser({ onClose }: { onClose: () => void }) {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                    {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
                 </div>
 
                 <div className="flex justify-end space-x-4 mt-6">
