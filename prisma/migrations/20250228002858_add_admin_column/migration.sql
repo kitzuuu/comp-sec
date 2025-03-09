@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE `users` ADD COLUMN `admin` BOOLEAN NOT NULL DEFAULT false,
-    ALTER COLUMN `balance` DROP DEFAULT,
-    ALTER COLUMN `blocked` DROP DEFAULT;

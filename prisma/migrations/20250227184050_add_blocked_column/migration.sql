@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE `users` ADD COLUMN `blocked` BOOLEAN NOT NULL DEFAULT false,
-    MODIFY `balance` INTEGER NOT NULL DEFAULT 1000;

@@ -5,8 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/migrations/migration_lock.toml" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/migrations/migration_lock.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/register/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/register/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/register-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/register-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/20250211001523_add_name_column/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/20250211003244_remove_name_column/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/20250211200833_add_balance_field/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/20250227184050_add_blocked_column/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/20250228002858_add_admin_column/migration.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/20250309140922_add_security_fields/migration.sql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

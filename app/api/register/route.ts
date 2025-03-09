@@ -1,59 +1,42 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/database";
-
-// Caesar Cipher Encryption (Shifts by +3)
-function caesarCipherEncrypt(text: string, shift: number): string {
-    return text.replace(/[a-zA-Z0-9]/g, (char) => {
-        let base: number;
-        let range: number;
-
-        if (char >= "a" && char <= "z") {
-            base = 97;
-            range = 26;
-        } else if (char >= "A" && char <= "Z") {
-            base = 65;
-            range = 26;
-        } else if (char >= "0" && char <= "9") {
-            base = 48;
-            range = 10;
-        } else {
-            return char;
-        }
-
-        return String.fromCharCode(((char.charCodeAt(0) - base + shift) % range) + base);
-    });
-}
+import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
     try {
-        const { username, password } = await req.json();
+        const { name, email, verificationQuestion, verificationAnswer, password } = await req.json();
 
-        if (!username || !password) {
+        if (!name || !email || !verificationQuestion || !verificationAnswer || !password) {
             return NextResponse.json({ message: "All fields are required" }, { status: 400 });
         }
 
-        const existingUser = await prisma.users.findUnique({ where: { username } });
+        // Check if user already exists
+        const existingUser = await prisma.users.findUnique({ where: { email } });
         if (existingUser) {
-            return NextResponse.json({ message: "User already exists" }, { status: 400 });
+            return NextResponse.json({ message: "User with this email already exists" }, { status: 400 });
         }
 
-        // Encrypt password before storing
-        const encryptedPassword = caesarCipherEncrypt(password, 3);
+        // Hash password and security question answer
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedVerification = await bcrypt.hash(verificationAnswer, 10);
 
-        // Store user in database
+        // Create user in `users` table
         await prisma.users.create({
             data: {
-                username,
-                password: encryptedPassword,
+                name,
+                email,
+                verification: hashedVerification, // Store hashed security answer
+                password: hashedPassword,
                 balance: 0,
                 blocked: false,
-                admin: false
-            }
+                admin: false,
+            },
         });
 
         return NextResponse.json({ message: "User registered successfully" }, { status: 201 });
 
     } catch (error: unknown) {
+        console.error("Registration Error:", error);
         return NextResponse.json({ message: "Error registering user" }, { status: 500 });
     }
 }
