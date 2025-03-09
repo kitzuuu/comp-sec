@@ -1,71 +1,46 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/database";
-
-type User = {
-    id: number;
-    username: string;
-    password: string;
-    balance: number;
-    blocked: boolean;
-    admin: boolean;
-};
-
-// Function to decrypt Caesar Cipher text
-function caesarCipherDecrypt(text: string, shift: number): string {
-    return text.replace(/[a-zA-Z0-9]/g, (char) => {
-        let base: number;
-        let range: number;
-
-        if (char >= "a" && char <= "z") {
-            base = 97;
-            range = 26;
-        } else if (char >= "A" && char <= "Z") {
-            base = 65;
-            range = 26;
-        } else if (char >= "0" && char <= "9") {
-            base = 48;
-            range = 10;
-        } else {
-            return char;
-        }
-
-        return String.fromCharCode(((char.charCodeAt(0) - base - shift + range) % range) + base);
-    });
-}
+import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
     try {
-        const { username, password } = await req.json();
+        const { email, password } = await req.json();
 
-        const userQuery = `SELECT * FROM users WHERE username = '${username}'`;
-        const userResult = await prisma.$queryRawUnsafe<User[]>(userQuery);
+        console.log(`[LOGIN ATTEMPT] Email: ${email}`);
 
-        if (userResult.length === 0) {
-            return NextResponse.json({ message: "Invalid username or password" }, { status: 401 });
+        // Prevent SQL injection by using Prisma ORMnow 
+        const user = await prisma.users.findUnique({ where: { email } });
+
+        if (!user) {
+            console.log(`[FAILED LOGIN] Email: ${email} - User not found`);
+            return NextResponse.json({ message: "Invalid email or password" }, { status: 401 });
         }
 
-        const user = userResult[0];
-
         if (user.blocked) {
+            console.log(`[BLOCKED ACCOUNT] Email: ${email} - Attempted login`);
             return NextResponse.json({ message: "Your account is blocked" }, { status: 403 });
         }
 
-        const decryptedPassword = caesarCipherDecrypt(user.password, 3);
-
-        if (decryptedPassword !== password) {
-            return NextResponse.json({ message: "Invalid username or password" }, { status: 401 });
+        // Compare the hashed password with bcrypt
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            console.log(`[FAILED LOGIN] Email: ${email} - Incorrect password`);
+            return NextResponse.json({ message: "Invalid email or password" }, { status: 401 });
         }
+
+        console.log(`[SUCCESS LOGIN] Email: ${email} - Admin: ${user.admin}`);
 
         return NextResponse.json({
             message: "Login successful",
             user: {
-                username: user.username,
+                email: user.email,
                 isAdmin: user.admin,
                 redirect: user.admin ? "/admin-dashboard" : "/dashboard"
             }
         }, { status: 200 });
 
-    } catch {
+    } catch (error) {
+        console.error("[LOGIN ERROR]", error);
         return NextResponse.json({ message: "Error logging in" }, { status: 500 });
     }
 }

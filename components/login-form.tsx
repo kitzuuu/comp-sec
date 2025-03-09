@@ -15,26 +15,26 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
 
     try {
       const response = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: email, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        sessionStorage.setItem("username", data.user.username);
+        // ✅ Store email in sessionStorage
+        sessionStorage.setItem("email", data.user.email);
 
-        if (data.user.isAdmin) {
-          localStorage.setItem("isAdmin", "true");
-          router.push("/admin-dashboard");
-        } else {
-          localStorage.setItem("isAdmin", "false");
-          router.push("/dashboard");
-        }
+        // ✅ Store admin status in localStorage
+        localStorage.setItem("isAdmin", data.user.isAdmin ? "true" : "false");
+
+        // ✅ Redirect based on admin status
+        router.push(data.user.redirect);
       } else {
         setError(data.message || "Login failed.");
       }
@@ -56,7 +56,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             <Label htmlFor="email">Email</Label>
             <Input
                 id="email"
-                type="text"
+                type="email"
                 placeholder="m@example.com"
                 required
                 value={email}
