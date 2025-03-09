@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/reset-password/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/forgot-password/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/forgot-password/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/login/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/login/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/forgot-password-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/forgot-password-form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/login-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/login-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/dashboard/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/dashboard/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/wallet/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/wallet/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/dashboard-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/dashboard-form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/add-money.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/add-money.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/withdraw-money.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/withdraw-money.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,7 +29,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,

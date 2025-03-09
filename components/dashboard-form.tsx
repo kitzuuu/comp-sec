@@ -8,79 +8,95 @@ import { WithdrawMoney } from "@/components/ui/withdraw-money";
 
 export function DashboardForm() {
     const [balance, setBalance] = useState<number | null>(null);
-    const [transactions, setTransactions] = useState<{ type: string; amount: number; date: string; time: string; user: string; status: string }[]>([]);
+    const [transactions, setTransactions] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
     const [showWithdrawPopup, setShowWithdrawPopup] = useState(false);
-    const username = typeof window !== "undefined" ? sessionStorage.getItem("username") : null; // ✅ Get username from session storage
+    const email = typeof window !== "undefined" ? sessionStorage.getItem("email") : null;
 
-    useEffect(() => {
-        const fetchBalance = async () => {
-            if (!username) return; // ✅ Ensure username is available
-
-            try {
-                const res = await fetch(`/api/wallet?username=${username}`, { method: "GET" });
-                const data = await res.json();
-                if (res.ok) {
-                    setBalance(data.balance);
-                }
-            } catch (error) {
-                console.log("❌ Error fetching balance:", error);
+    // ✅ Function to Fetch Balance
+    const fetchBalance = async () => {
+        if (!email) return;
+        try {
+            const res = await fetch(`/api/wallet?email=${email}`, { method: "GET" });
+            const data = await res.json();
+            if (res.ok) {
+                console.log("✅ Wallet balance updated:", data.balance);
+                setBalance(data.balance);
             }
-        };
+        } catch (error) {
+            console.log("❌ Error fetching balance:", error);
+        }
+    };
 
-        // Load transactions from local storage
+    // ✅ Fetch balance initially and every 5 sec
+    useEffect(() => {
+        if (!email) return;
+
+        fetchBalance(); // Initial fetch
+
+        const interval = setInterval(fetchBalance, 5000); // Refresh every 5 seconds
+        return () => clearInterval(interval); // Clear interval on unmount
+    }, [email]);
+
+    // ✅ Load transaction history from local storage
+    useEffect(() => {
         const storedTransactions = localStorage.getItem("transactionHistory");
         if (storedTransactions) {
             setTransactions(JSON.parse(storedTransactions));
         }
+    }, []);
 
-        fetchBalance();
-    }, [username]); // ✅ Dependency added for username
-
-    const handleTransaction = async (type: "add" | "withdraw", amount: number) => {
-        if (!username) return; // ✅ Ensure username exists before making request
+    const handleTransaction = async (type: "add" | "withdraw", amount: number, password: string): Promise<boolean> => {
+        if (!email) return false;
 
         try {
             const res = await fetch("/api/wallet", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, type, amount }), // ✅ Include username in request
+                body: JSON.stringify({ email, type, amount, password }),
             });
 
             const data = await res.json();
-            const currentDate = new Date();
-            const formattedDate = currentDate.toLocaleDateString();
-            const formattedTime = currentDate.toLocaleTimeString();
 
             if (res.ok) {
+                console.log("✅ Transaction successful!");
+
+                // ✅ Update balance immediately
                 setTimeout(() => {
                     setBalance(data.newBalance);
-                    const newTransaction = {
-                        type,
-                        amount,
-                        date: formattedDate,
-                        time: formattedTime,
-                        user: username, // ✅ Ensure correct username is stored
-                        status: "Completed",
-                    };
+                }, 3000); // Keep a 3-second delay to match UI behavior
 
-                    setTransactions((prev) => {
-                        const updatedHistory = [newTransaction, ...prev].slice(0, 8);
-                        localStorage.setItem("transactionHistory", JSON.stringify(updatedHistory));
-                        return updatedHistory;
-                    });
-                }, 2000);
+                // ✅ Save transaction history
+                const currentDate = new Date();
+                const newTransaction = {
+                    type,
+                    amount,
+                    date: currentDate.toLocaleDateString(),
+                    time: currentDate.toLocaleTimeString(),
+                    user: email,
+                    status: "Completed",
+                };
+
+                setTransactions((prev) => {
+                    const updatedHistory = [newTransaction, ...prev].slice(0, 8);
+                    localStorage.setItem("transactionHistory", JSON.stringify(updatedHistory));
+                    return updatedHistory;
+                });
+
+                return true;
             } else {
-                console.log("❌ Transaction failed.");
+                console.log("❌ Transaction failed:", data.message);
+                return false;
             }
         } catch (error) {
             console.log("❌ Error processing transaction:", error);
+            return false;
         }
     };
 
     return (
         <div className="flex h-screen w-screen">
-            <Navigation /> {/* Sidebar Component */}
+            <Navigation />
 
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
                 <div className="absolute inset-0 bg-cover bg-center opacity-20"
@@ -110,22 +126,17 @@ export function DashboardForm() {
                 {showPopup && (
                     <AddMoney
                         onCloseAction={() => setShowPopup(false)}
-                        onConfirmAction={(amount: number) => {
-                            handleTransaction("add", amount);
-                        }}
+                        onConfirmAction={handleTransaction}
                     />
                 )}
 
                 {showWithdrawPopup && (
                     <WithdrawMoney
                         onCloseAction={() => setShowWithdrawPopup(false)}
-                        onConfirmAction={(amount: number) => {
-                            handleTransaction("withdraw", amount);
-                        }}
+                        onConfirmAction={handleTransaction}
                     />
                 )}
 
-                {/* Transaction History */}
                 <div className="relative bg-white p-6 rounded-lg shadow-md">
                     <TransactionHistory transactions={transactions} />
                 </div>

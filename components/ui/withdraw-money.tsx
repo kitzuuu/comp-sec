@@ -1,31 +1,32 @@
 "use client";
 import { useState } from "react";
 
-export function WithdrawMoney({ onCloseAction, onConfirmAction }: { onCloseAction: () => void; onConfirmAction: (amount: number) => void }) {
+export function WithdrawMoney({ onCloseAction, onConfirmAction }: { onCloseAction: () => void; onConfirmAction: (amount: number, password: string) => Promise<boolean> }) {
     const [amount, setAmount] = useState<number | string>("");
+    const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
-    const validateAndConfirm = () => {
+    const validateAndConfirm = async () => {
         const numericAmount = Number(amount);
 
-        if (isNaN(numericAmount)) {
-            setError("Please enter a valid number.");
+        if (isNaN(numericAmount) || numericAmount < 10 || numericAmount > 50000) {
+            setError("❌ Enter a valid amount (Min: $10, Max: $50,000).");
             return;
         }
 
-        if (numericAmount < 10) {
-            setError("Minimum withdrawal amount is $10.");
-            return;
-        }
-
-        if (numericAmount > 50000) {
-            setError("Maximum withdrawal amount is $50,000.");
+        if (!password.trim()) {
+            setError("❌ Password is required.");
             return;
         }
 
         setError(null);
-        onConfirmAction(numericAmount);
-        onCloseAction();  // Close the popup after confirming
+
+        const success = await onConfirmAction("withdraw", numericAmount, password); 
+        if (success) {
+            onCloseAction();
+        } else {
+            setError("❌ Incorrect password. Please try again.");
+        }
     };
 
     return (
@@ -33,7 +34,7 @@ export function WithdrawMoney({ onCloseAction, onConfirmAction }: { onCloseActio
             <div className="bg-white p-6 rounded-lg shadow-xl w-[90%] max-w-md border border-gray-300">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Withdraw Funds</h2>
 
-                <p className="text-gray-600 text-sm mb-2">Enter the amount you want to withdraw (Min: $10 | Max: $50,000)</p>
+                <p className="text-gray-600 text-sm mb-2">Enter the amount to withdraw (Min: $10 | Max: $50,000)</p>
 
                 <input
                     type="number"
@@ -45,21 +46,23 @@ export function WithdrawMoney({ onCloseAction, onConfirmAction }: { onCloseActio
                     max={50000}
                 />
 
-                {error && (
-                    <p className="text-red-500 text-sm mt-2">{error}</p>
-                )}
+                <p className="text-gray-600 text-sm mt-2">Enter your password to confirm</p>
+
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Enter password"
+                />
+
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
                 <div className="flex justify-end mt-6 gap-3">
-                    <button
-                        className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md transition"
-                        onClick={onCloseAction}
-                    >
+                    <button className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md transition" onClick={onCloseAction}>
                         Cancel
                     </button>
-                    <button
-                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition"
-                        onClick={validateAndConfirm}
-                    >
+                    <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition" onClick={validateAndConfirm}>
                         Confirm
                     </button>
                 </div>
