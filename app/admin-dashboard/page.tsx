@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AdminAddUser } from "@/components/ui/admin-add-user";
 import { AdminDeleteUser } from "@/components/ui/admin-delete-user";
 import { AdminBanUser } from "@/components/ui/admin-ban-user";
@@ -9,21 +10,43 @@ import { Button } from "@/components/ui/button";
 import { Navigation } from "@/components/ui/navigation"; // Sidebar navigation
 
 export default function AdminDashboard() {
-    const [popup, setPopup] = useState<string | null>(null);
+    const router = useRouter();
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+    const [popup, setPopup] = useState<string | null>(null); // ✅ Restored `popup` state
 
     useEffect(() => {
-        // Mark admin dashboard as last visited
-        localStorage.setItem("lastVisitedAdminDashboard", "true");
-    }, []);
+        const email = sessionStorage.getItem("email");
 
-    async function fetchConfig() {
-        try {
-            const response = await fetch("/api/config");
-            const data = await response.json();
-            alert(`Database URL: ${data.DATABASE_URL}\nNode Env: ${data.NODE_ENV}\nSecret Key: ${data.SECRET_KEY}`);
-        } catch (error) {
-            alert("Failed to fetch config.");
+        if (!email) {
+            console.log("❌ No email found in session. Redirecting to login...");
+            router.push("/login");
+            return;
         }
+
+        // ✅ Use an Immediately Invoked Async Function (IIFE)
+        (async () => {
+            try {
+                const res = await fetch(`/api/check-admin?email=${email}`);
+                const data = await res.json();
+
+                if (!res.ok || !data.isAdmin) {
+                    console.log("❌ User is not an admin. Redirecting...");
+                    router.push("/login");
+                } else {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.log("❌ Error checking admin status:", error);
+                router.push("/login");
+            }
+        })(); // ✅ This immediately calls the function and awaits it
+
+    }, [router]);
+
+
+
+    if (isAdmin === null) {
+        return <p>Loading...</p>; // Show a loading state before redirecting
     }
 
     return (
@@ -33,15 +56,16 @@ export default function AdminDashboard() {
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
                 <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
+                {/* ✅ Buttons to Open Popups */}
                 <div className="grid grid-cols-3 gap-4">
                     <Button onClick={() => setPopup("addUser")} className="bg-blue-500">Add User</Button>
                     <Button onClick={() => setPopup("deleteUser")} className="bg-red-500">Delete User</Button>
                     <Button onClick={() => setPopup("banUser")} className="bg-gray-500">Ban User</Button>
                     <Button onClick={() => setPopup("giveMoney")} className="bg-green-500">Give Money</Button>
                     <Button onClick={() => setPopup("withdrawMoney")} className="bg-orange-500">Withdraw Money</Button>
-                    <Button onClick={fetchConfig} className="bg-purple-500">View Config</Button>
                 </div>
 
+                {/* ✅ Popups (Restored Functionality) */}
                 {popup === "addUser" && <AdminAddUser onClose={() => setPopup(null)} />}
                 {popup === "deleteUser" && <AdminDeleteUser onClose={() => setPopup(null)} />}
                 {popup === "banUser" && <AdminBanUser onClose={() => setPopup(null)} />}
