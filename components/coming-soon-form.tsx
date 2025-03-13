@@ -17,7 +17,7 @@ export function ComingSoonForm() {
             const distance = finalDate - currentTime;
 
             if (distance < 0) {
-                clearInterval(interval); // Stop the countdown once the date has passed
+                clearInterval(interval);
                 setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
             } else {
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -37,7 +37,6 @@ export function ComingSoonForm() {
             <h1 className="text-3xl font-bold mb-6 text-primary">Coming Soon</h1>
             <p className="text-lg text-gray-600 mb-6">We are working hard to bring this feature live! Stay tuned.</p>
 
-            {/* Countdown Timer */}
             <div className="text-4xl font-semibold text-primary mb-6">
                 <div className="flex justify-center space-x-6">
                     <div className="text-center">
@@ -59,7 +58,6 @@ export function ComingSoonForm() {
                 </div>
             </div>
 
-            {/* Button to go back */}
             <button
                 onClick={() => window.location.href = "/dashboard"}
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md"

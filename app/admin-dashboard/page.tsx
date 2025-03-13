@@ -6,13 +6,12 @@ import { AdminBanUser } from "@/components/ui/admin-ban-user";
 import { AdminGiveMoney } from "@/components/ui/admin-give-money";
 import { AdminWithdrawMoney } from "@/components/ui/admin-withdraw-money";
 import { Button } from "@/components/ui/button";
-import { Navigation } from "@/components/ui/navigation"; // Sidebar navigation
+import { Navigation } from "@/components/ui/navigation";
 
 export default function AdminDashboard() {
     const [popup, setPopup] = useState<string | null>(null);
 
     useEffect(() => {
-        // Mark admin dashboard as last visited
         localStorage.setItem("lastVisitedAdminDashboard", "true");
     }, []);
 
@@ -21,7 +20,7 @@ export default function AdminDashboard() {
             const response = await fetch("/api/config");
             const data = await response.json();
             alert(`Database URL: ${data.DATABASE_URL}\nNode Env: ${data.NODE_ENV}\nSecret Key: ${data.SECRET_KEY}`);
-        } catch (error) {
+        } catch {
             alert("Failed to fetch config.");
         }
     }

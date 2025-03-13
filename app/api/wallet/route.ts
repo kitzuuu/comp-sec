@@ -20,11 +20,11 @@ export async function GET(req: Request) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
 
-        console.log(`✅ Fetching wallet balance for ${username}: $${user.balance}`);
+        console.log(`Fetching wallet balance for ${username}: $${user.balance}`);
         return NextResponse.json({ balance: user.balance }, { status: 200 });
 
     } catch (error) {
-        console.log("❌ Error retrieving balance:", error);
+        console.log("Error retrieving balance:", error);
         return NextResponse.json({ message: "Error retrieving balance" }, { status: 500 });
     }
 }
@@ -60,11 +60,11 @@ export async function POST(req: Request) {
             data: { balance: newBalance },
         });
 
-        console.log(`✅ Wallet updated for ${username}: New balance is $${newBalance}`);
+        console.log(`Wallet updated for ${username}: New balance is $${newBalance}`);
         return NextResponse.json({ newBalance }, { status: 200 });
 
     } catch (error) {
-        console.log("❌ Error processing wallet transaction:", error);
+        console.log("Error processing wallet transaction:", error);
         return NextResponse.json({ message: "Error processing request" }, { status: 500 });
     }
 }

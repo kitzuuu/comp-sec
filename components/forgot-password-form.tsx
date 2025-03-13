@@ -12,8 +12,6 @@ export function ForgotPasswordForm() {
 
     const handleRetrievePassword = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        // Reset previous messages to avoid stacking
         setPassword("");
         setMessage("");
 
@@ -22,12 +20,12 @@ export function ForgotPasswordForm() {
             const data = await res.json();
 
             if (res.ok) {
-                setPassword(data.password); // Show password only
+                setPassword(data.password);
             } else {
-                setMessage(data.message || "User not found."); // Show error message only
+                setMessage(data.message || "User not found.");
             }
         } catch {
-            setMessage("❌ Error retrieving password. Please try again.");
+            setMessage("Error retrieving password. Please try again.");
         }
     };
 
@@ -49,7 +47,6 @@ export function ForgotPasswordForm() {
                 <Button type="submit">Retrieve Password</Button>
             </form>
 
-            {/* Show only one message at a time (No Bold Text) */}
             <div className="text-center text-lg">
                 {password ? (
                     <p>Your password: {password}</p>

@@ -26,9 +26,9 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
         const data = await response.json();
 
         if (response.ok) {
-            setMessage("Account created successfully!"); // Show success message
+            setMessage("Account created successfully!");
         } else {
-            setError(data.message || "Registration failed."); // Show error message
+            setError(data.message || "Registration failed.");
         }
     };
 
@@ -63,7 +63,6 @@ export function RegisterForm({ className, ...props }: React.ComponentPropsWithou
                     />
                 </div>
 
-                {/* ✅ Show Success or Error Messages Above Button */}
                 {error && <p className="text-red-500 text-sm">{error}</p>}
                 {message && <p className="text-green-500 text-sm">{message}</p>}
 

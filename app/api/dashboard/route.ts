@@ -12,14 +12,13 @@ export async function POST(req: Request) {
 
         let newBalance = user.balance;
         if (type === "add") {
-            newBalance += 100; // Add $100
+            newBalance += 100;
         } else if (type === "withdraw" && user.balance >= 100) {
-            newBalance -= 100; // Withdraw $100
+            newBalance -= 100;
         } else {
             return NextResponse.json({ message: "Insufficient funds" }, { status: 400 });
         }
 
-        // Update balance in database
         user = await prisma.users.update({
             where: { id: user.id },
             data: { balance: newBalance },

@@ -13,5 +13,5 @@ model users {
   password String
   balance  Int
   blocked  Boolean
-  admin    Boolean @default(false) // This is the new column
+  admin    Boolean @default(false)
 }

@@ -25,7 +25,6 @@ export function Navigation() {
 
     const homeButtonClass = "px-4 py-3 rounded-md bg-opacity-30 hover:bg-opacity-50 transition";
 
-    // Closes the popup if clicking outside of it
     const handleClosePopup = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).id === "popup-overlay") {
             setShowPopup(false);
@@ -66,7 +65,6 @@ export function Navigation() {
                 </nav>
             </aside>
 
-            {/* Settings Popup */}
             {showPopup && (
                 <div
                     id="popup-overlay"

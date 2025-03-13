@@ -10,7 +10,6 @@ type User = {
     admin: boolean;
 };
 
-// Function to decrypt Caesar Cipher text
 function caesarCipherDecrypt(text: string, shift: number): string {
     return text.replace(/[a-zA-Z0-9]/g, (char) => {
         let base: number;

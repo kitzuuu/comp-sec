@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/database";
 
-// Caesar Cipher Encryption (works for letters and numbers)
 function caesarCipherEncrypt(text: string, shift: number): string {
     return text.replace(/[a-zA-Z0-9]/g, (char) => {
         let base: number;
@@ -24,7 +23,6 @@ function caesarCipherEncrypt(text: string, shift: number): string {
     });
 }
 
-// Add User
 export async function POST(req: Request) {
     try {
         const { email, password } = await req.json();
@@ -55,7 +53,6 @@ export async function POST(req: Request) {
     }
 }
 
-// Delete User
 export async function DELETE(req: Request) {
     try {
         const { email } = await req.json();
@@ -81,7 +78,6 @@ export async function DELETE(req: Request) {
     }
 }
 
-// Ban User
 export async function PUT(req: Request) {
     try {
         const { email } = await req.json();

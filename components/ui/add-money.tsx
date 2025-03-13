@@ -25,7 +25,7 @@ export function AddMoney({ onCloseAction, onConfirmAction }: { onCloseAction: ()
 
         setError(null);
         onConfirmAction(numericAmount);
-        onCloseAction();  // Close the popup after confirming
+        onCloseAction();
     };
 
     return (

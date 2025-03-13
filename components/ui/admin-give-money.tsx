@@ -16,7 +16,7 @@ export function AdminGiveMoney({ onClose }: { onClose: () => void }) {
             return;
         }
 
-        setError(null);  // Clear previous error
+        setError(null);
 
         const response = await fetch("/api/admin-dashboard", {
             method: "PATCH",

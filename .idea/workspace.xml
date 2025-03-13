@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="41f1892a-3909-4ac4-849f-4a01e26f0403" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/login/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/login/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/login-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/login-form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/register/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/register/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +44,7 @@
     &quot;Notification.DisplayName-DoNotAsk-Vcs Important Messages&quot;: &quot;VCS important messages&quot;,
     &quot;Notification.DoNotAsk-Vcs Important Messages&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;rares&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;unsafe&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/hucih/Desktop/Computer Security/comp-sec/public&quot;,
@@ -106,6 +104,8 @@
       <workItem from="1740734158727" duration="71000" />
       <workItem from="1741441456592" duration="2320000" />
       <workItem from="1741453673263" duration="2004000" />
+      <workItem from="1741553854826" duration="1212000" />
+      <workItem from="1741559570654" duration="637000" />
     </task>
     <servers />
   </component>

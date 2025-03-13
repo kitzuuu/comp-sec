@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/database";
 
-// Caesar Cipher Decryption Function
 function caesarCipherDecrypt(text: string, shift: number): string {
     return text.replace(/[a-zA-Z0-9]/g, (char) => {
         let base: number;
@@ -34,13 +33,11 @@ export async function GET(req: Request) {
             return NextResponse.json({ message: "Username is required" }, { status: 400 });
         }
 
-        // Find user in database
         const user = await prisma.users.findUnique({ where: { username } });
         if (!user) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
 
-        // Decrypt the password
         const decryptedPassword = caesarCipherDecrypt(user.password, 3);
 
         return NextResponse.json({ password: decryptedPassword }, { status: 200 });

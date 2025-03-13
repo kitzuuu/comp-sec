@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/database";
 
-// Caesar Cipher Encryption (Shifts by +3)
 function caesarCipherEncrypt(text: string, shift: number): string {
     return text.replace(/[a-zA-Z0-9]/g, (char) => {
         let base: number;
@@ -37,10 +36,8 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "User already exists" }, { status: 400 });
         }
 
-        // Encrypt password before storing
         const encryptedPassword = caesarCipherEncrypt(password, 3);
 
-        // Store user in database
         await prisma.users.create({
             data: {
                 username,
@@ -53,7 +50,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ message: "User registered successfully" }, { status: 201 });
 
-    } catch (error: unknown) {
+    } catch {
         return NextResponse.json({ message: "Error registering user" }, { status: 500 });
     }
 }

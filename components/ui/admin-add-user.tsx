@@ -16,7 +16,7 @@ export function AdminAddUser({ onClose }: { onClose: () => void }) {
             return;
         }
 
-        setError(null);  // Clear previous error if any.
+        setError(null);
 
         const response = await fetch("/api/admin-dashboard", {
             method: "POST",

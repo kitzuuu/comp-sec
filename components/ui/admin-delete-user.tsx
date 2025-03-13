@@ -15,7 +15,7 @@ export function AdminDeleteUser({ onClose }: { onClose: () => void }) {
             return;
         }
 
-        setError(null);  // Clear any previous error
+        setError(null);
 
         const response = await fetch("/api/admin-dashboard", {
             method: "DELETE",
@@ -26,7 +26,7 @@ export function AdminDeleteUser({ onClose }: { onClose: () => void }) {
         const result = await response.json();
 
         if (response.ok) {
-            onClose();  // Close the popup if successful
+            onClose();
         } else {
             setError(result.message || "Failed to delete user. Please try again.");
         }

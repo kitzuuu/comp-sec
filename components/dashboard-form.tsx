@@ -11,11 +11,11 @@ export function DashboardForm() {
     const [transactions, setTransactions] = useState<{ type: string; amount: number; date: string; time: string; user: string; status: string }[]>([]);
     const [showPopup, setShowPopup] = useState(false);
     const [showWithdrawPopup, setShowWithdrawPopup] = useState(false);
-    const username = typeof window !== "undefined" ? sessionStorage.getItem("username") : null; // ✅ Get username from session storage
+    const username = typeof window !== "undefined" ? sessionStorage.getItem("username") : null;
 
     useEffect(() => {
         const fetchBalance = async () => {
-            if (!username) return; // ✅ Ensure username is available
+            if (!username) return;
 
             try {
                 const res = await fetch(`/api/wallet?username=${username}`, { method: "GET" });
@@ -24,7 +24,7 @@ export function DashboardForm() {
                     setBalance(data.balance);
                 }
             } catch (error) {
-                console.log("❌ Error fetching balance:", error);
+                console.log("Error fetching balance:", error);
             }
         };
 
@@ -35,16 +35,15 @@ export function DashboardForm() {
         }
 
         fetchBalance();
-    }, [username]); // ✅ Dependency added for username
+    }, [username]);
 
     const handleTransaction = async (type: "add" | "withdraw", amount: number) => {
-        if (!username) return; // ✅ Ensure username exists before making request
-
+        if (!username) return;
         try {
             const res = await fetch("/api/wallet", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, type, amount }), // ✅ Include username in request
+                body: JSON.stringify({ username, type, amount }),
             });
 
             const data = await res.json();
@@ -60,7 +59,7 @@ export function DashboardForm() {
                         amount,
                         date: formattedDate,
                         time: formattedTime,
-                        user: username, // ✅ Ensure correct username is stored
+                        user: username,
                         status: "Completed",
                     };
 
@@ -71,16 +70,16 @@ export function DashboardForm() {
                     });
                 }, 2000);
             } else {
-                console.log("❌ Transaction failed.");
+                console.log("Transaction failed.");
             }
         } catch (error) {
-            console.log("❌ Error processing transaction:", error);
+            console.log("Error processing transaction:", error);
         }
     };
 
     return (
         <div className="flex h-screen w-screen">
-            <Navigation /> {/* Sidebar Component */}
+            <Navigation />
 
             <div className="flex-1 ml-64 p-6 bg-gray-100 relative">
                 <div className="absolute inset-0 bg-cover bg-center opacity-20"
@@ -125,7 +124,6 @@ export function DashboardForm() {
                     />
                 )}
 
-                {/* Transaction History */}
                 <div className="relative bg-white p-6 rounded-lg shadow-md">
                     <TransactionHistory transactions={transactions} />
                 </div>

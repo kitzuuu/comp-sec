@@ -25,7 +25,7 @@ export function WithdrawMoney({ onCloseAction, onConfirmAction }: { onCloseActio
 
         setError(null);
         onConfirmAction(numericAmount);
-        onCloseAction();  // Close the popup after confirming
+        onCloseAction();
     };
 
     return (
