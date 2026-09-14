@@ -1,106 +1,58 @@
-# Computer Security Project (Easy Mode - OWASP Top 10 Demonstration)
+# 🔐 Vulnerable vs. Secure Web App: OWASP Top 10 Demo
 
-## 1. Project Overview
-This project has been developed as part of the **Computer Security (BSC2420)** course to demonstrate real-world security vulnerabilities based on the **OWASP Top 10 (2021) vulnerabilities**.
+A digital-wallet web app (sign-up, login, deposits and withdrawals, transaction history, admin dashboard) built **twice**: once with six deliberate [OWASP Top 10 (2021)](https://owasp.org/Top10/) vulnerabilities, and once with each of them fixed. Developed for the *Computer Security* course (BSC2420) at Maastricht University.
 
-The objective is to intentionally implement and analyze security flaws in a **Next.js web application** connected to a **MySQL database**, simulating **common weaknesses found in modern web applications**.
+| Branch | Contents |
+|:--|:--|
+| [`unsafe`](https://github.com/kitzuuu/comp-sec/tree/unsafe) | Intentionally vulnerable version |
+| [`safe`](https://github.com/kitzuuu/comp-sec/tree/safe) (default) | Patched version that follows security best practices |
 
-The project follows the **Easy Mode** requirements, which mandate the inclusion of at least **six (6) OWASP Top 10 vulnerabilities** in the application. The identified vulnerabilities and their explanations are detailed below.
+> [!WARNING]
+> Built for education only. The `unsafe` branch contains real, exploitable flaws: run it locally and never deploy it.
 
-## 2. Technology Stack
-- **Frontend:** Next.js (React 19)
-- **Backend:** Next.js API routes
-- **Database:** MySQL (local instance)
-- **ORM:** Prisma
-- **Authentication:** Basic login system
-- **Styling:** Tailwind CSS
+## Tech stack
 
-## 3. Repository and Branches
+Next.js 15 (App Router + API routes) · React 19 · TypeScript · Prisma ORM · MySQL · Tailwind CSS · Radix UI
 
-The project is hosted on GitHub at the following link:
+## Vulnerabilities demonstrated
 
+| OWASP 2021 category | How it shows up in the `unsafe` branch |
+|:--|:--|
+| **A01** Broken Access Control | Any user can open `/admin-dashboard` just by typing the URL. |
+| **A02** Cryptographic Failures | Passwords are "encrypted" with a Caesar cipher, so they are trivial to recover. |
+| **A03** Injection | The login form is open to SQL injection, e.g. `' OR 1=1 --` as the username. |
+| **A04** Insecure Design | "Forgot password" shows the original password without verifying the user's identity. |
+| **A05** Security Misconfiguration | Login attempts are not logged, so brute-force attacks go unnoticed. |
+| **A07** Identification & Authentication Failures | No password policy: `1234` is accepted. |
+
+The `safe` branch fixes each one, for example with bcrypt password hashing, Prisma queries instead of raw SQL strings, and an admin-role check before the dashboard loads.
+
+## Getting started
+
+Requirements: Node.js 18+ and a local MySQL server.
+
+```bash
 git clone https://github.com/kitzuuu/comp-sec.git
-This repository contains two distinct branches:
+cd comp-sec
+git checkout unsafe        # or: git checkout safe
+npm install
+```
 
-unsafe branch: Contains the intentionally vulnerable version of the application, showcasing security flaws based on the OWASP Top 10 vulnerabilities.
-safe branch: Contains the secure version of the application, where the identified vulnerabilities have been patched to meet security best practices.
-3.1 Cloning and Branch Management
-The repository can be cloned using git clone, and branch switching can be performed using git checkout.
+Create a MySQL database called `next_auth`, then add a `.env` file in the project root:
 
-Windows users can clone the repository and switch branches using Command Prompt or PowerShell. Ensure Git is installed and properly configured.
+```env
+DATABASE_URL="mysql://USER:PASSWORD@localhost:3306/next_auth"
+```
 
-Mac users can use Terminal to clone the repository and switch between branches. The default macOS Git installation should be sufficient.
+Apply the migrations and start the dev server:
 
-Linux users can use Terminal to clone the repository and navigate between branches. If Git is not installed, it can be obtained from the system’s package manager.
+```bash
+npx prisma migrate dev
+npm run dev                # http://localhost:3000
+```
 
-To switch between branches:
+## Team
 
-Use the unsafe branch for the vulnerable version.
-Use the safe branch for the patched version.
+Group 19: [Huci Petrut-Rares](https://github.com/rares-hcy) and [Toma Cristian Nitu](https://github.com/kitzuuu)
 
-## 4. Setup Instructions
-
-### 4.1 Install Dependencies
-Ensure that **Node.js (version 18 or later)** is installed. After cloning the repository, install all required dependencies using the package manager.
-
-### 4.2 Configure the Database
-The application requires a **local MySQL instance** to store user authentication details and other data.
-
-1. Ensure MySQL is installed and running on the local machine.
-2. Create a database named `next_auth`.
-3. Copy the example environment configuration file and modify it with the correct database credentials.
-4. Define the database connection parameters in the `.env` file.
-
-### 4.3 Apply Database Migrations
-Once the database is configured, apply the Prisma migrations to ensure the required tables are created.
-
-### 4.4 Start the Application
-The application runs in **development mode**. After setting up the database and installing dependencies, the development server can be started.
-
-The application will be available locally.
-
-## 5. Implemented OWASP Top 10 Vulnerabilities (2021)
-
-This project includes six security vulnerabilities categorized according to the **OWASP Top 10 (2021)** list.
-
-### 5.1 A01:2021 - Broken Access Control
-- The system does not restrict access to the **admin dashboard (`/admin-dashboard`)**.
-- Any user can manually navigate to `/admin-dashboard` and gain access to sensitive administrative functionalities.
-
-
-### 5.2 A02:2021 - Cryptographic Failures
-- The application encrypts user passwords using the **Caesar Cipher**, which is an outdated and insecure encryption method.
-- This approach does not protect user credentials and makes it trivial to recover stored passwords.
-
-### 5.3 A03:2021 - Injection
-- The **login system is vulnerable to SQL injection attacks** due to the lack of proper input sanitization.
-- Attackers can bypass authentication using SQL injection techniques, such as entering `' OR 1=1 --` in the username field.
-
-### 5.4 A04:2021 - Insecure Design
-- The **Forgot Password feature does not verify user identity before displaying passwords**.
-- When users request a password reset, the system **reveals the original password in plaintext** instead of securely resetting it.
-
-### 5.5 A05:2021 - Security Misconfiguration
-- The application does not log authentication attempts (failed or successful).
-- Without authentication logging, there is no way to detect brute-force attempts or suspicious login behavior.
-
-### 5.6 A07:2021 - Identification and Authentication Failures
-- The system allows **extremely weak passwords**, such as `"1234"`, without enforcing any security policies.
-- There are **no password complexity requirements** (e.g., minimum length, uppercase letters, special characters).
-
-## 6. Important Notes
-
-- This project is developed **exclusively for academic purposes** and **must not be deployed in production**.
-- The security vulnerabilities included are **intentional** for demonstration and research purposes.
-- The application must be executed in a **controlled environment** with appropriate precautions.
-- The `unsafe` branch contains **known security flaws** and should only be used for educational analysis.
-- The `safe` branch contains a **patched version** of the application with vulnerabilities fixed.
-- The project must not be used for unauthorized security testing or malicious activities.
-
-## 7. Contributors
-
-This project was developed as part of the **Computer Security (BSC2420)** course by the following contributors:
-
-- **Group 19**
-    - **Huci Petrut-Rares**
-    - **Nitu Toma Cristian**
+This project is for academic use only and must not be used for unauthorized security testing or any malicious activity.
